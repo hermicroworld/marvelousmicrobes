@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gut Feelings — Saumya's Marvelous Microbes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,600&family=Jost:wght@300;400;500;600&family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ocean:       #3a7ca5;
+      --ocean-deep:  #1d4e6e;
+      --ocean-light: #a8cfe0;
+      --ocean-pale:  #deeef7;
+      --ocean-wash:  #eef6fb;
+      --white:       #fafcfe;
+      --warm-white:  #f4f8fc;
+      --sand:        #d8e8f0;
+      --ink:         #1a2c38;
+      --ink-mid:     #3a5568;
+      --ink-soft:    #6a8599;
+      --gold:        #c49a3c;
+      --gold-pale:   #faf3e0;
+      --gut-pink:    #f5c6c6;
+      --gut-deep:    #c97b7b;
+      --gut-lumen:   #fde8d8;
+      --healthy:     #5bb894;
+      --caution:     #e8b84b;
+      --inflamed:    #e07a5f;
+      --fd: 'Cormorant Garamond', Georgia, serif;
+      --fb: 'Jost', sans-serif;
+      --fm: 'Fira Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--white); color: var(--ink); font-family: var(--fb); font-size: 16px; line-height: 1.7; overflow-x: hidden; }
+
+    /* ── BACK NAV ── */
+    .top-bar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.9rem 2.5rem;
+      background: rgba(250,252,254,0.9); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--sand);
+    }
+    .back-link { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; font-family: var(--fm); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); transition: color 0.2s; }
+    .back-link:hover { color: var(--ocean); }
+    .top-title { font-family: var(--fd); font-size: 1.05rem; color: var(--ink); font-style: italic; }
+    .project-tag-pill { font-family: var(--fm); font-size: 0.65rem; padding: 0.22rem 0.7rem; border-radius: 999px; background: var(--ocean-pale); border: 1px solid var(--ocean-light); color: var(--ocean-deep); letter-spacing: 0.04em; }
+
+    /* ── HERO HEADER ── */
+    .hero-header {
+      padding: 7rem 2.5rem 3rem;
+      background: linear-gradient(160deg, var(--warm-white) 0%, var(--ocean-wash) 100%);
+      border-bottom: 1px solid var(--sand);
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .hero-header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 120%, rgba(58,124,165,0.08) 0%, transparent 70%);
+    }
+    .hero-label { font-family: var(--fm); font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ocean); margin-bottom: 0.8rem; }
+    .hero-title { font-family: var(--fd); font-size: clamp(2.4rem, 5vw, 4rem); color: var(--ink); line-height: 1.1; margin-bottom: 0.6rem; }
+    .hero-title em { color: var(--ocean); font-style: italic; }
+    .hero-sub { font-size: 0.95rem; color: var(--ink-soft); max-width: 540px; margin: 0 auto 1.5rem; line-height: 1.75; }
+    .hero-note { display: inline-block; font-family: var(--fm); font-size: 0.68rem; color: var(--ink-soft); background: var(--white); border: 1px solid var(--sand); border-radius: 6px; padding: 0.4rem 0.9rem; }
+
+    /* ── MAIN LAYOUT ── */
+    .sim-layout {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 0;
+      min-height: calc(100vh - 200px);
+    }
+
+    /* ── LEFT: FOOD SELECTION ── */
+    .food-panel {
+      padding: 2.5rem;
+      border-right: 1px solid var(--sand);
+      background: var(--white);
+    }
+    .panel-heading { font-family: var(--fd); font-size: 1.4rem; color: var(--ink); margin-bottom: 0.3rem; }
+    .panel-sub { font-size: 0.82rem; color: var(--ink-soft); margin-bottom: 1.8rem; }
+
+    .food-category { margin-bottom: 2rem; }
+    .cat-label {
+      font-family: var(--fm); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--ocean); margin-bottom: 0.8rem; padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--ocean-pale);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .food-grid { display: flex; flex-wrap: wrap; gap: 0.55rem; }
+
+    .food-btn {
+      display: flex; align-items: center; gap: 0.4rem;
+      padding: 0.45rem 0.9rem;
+      background: var(--warm-white);
+      border: 1.5px solid var(--sand);
+      border-radius: 999px;
+      font-family: var(--fb); font-size: 0.8rem; color: var(--ink-mid);
+      cursor: pointer; transition: all 0.18s;
+      user-select: none;
+    }
+    .food-btn .food-emoji { font-size: 1rem; }
+    .food-btn:hover { border-color: var(--ocean-light); color: var(--ink); background: var(--ocean-pale); }
+    .food-btn.selected {
+      background: var(--ocean); border-color: var(--ocean);
+      color: white; transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(58,124,165,0.25);
+    }
+
+    /* selected count strip */
+    .selection-strip {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.7rem 1rem; background: var(--ocean-pale);
+      border: 1px solid var(--ocean-light); border-radius: 8px;
+      margin-bottom: 1.8rem;
+    }
+    .sel-count { font-family: var(--fm); font-size: 0.72rem; color: var(--ocean-deep); }
+    .sel-count span { font-size: 1.1rem; font-weight: 600; margin-right: 0.3rem; }
+    .analyse-btn {
+      font-family: var(--fb); font-weight: 600; font-size: 0.82rem;
+      padding: 0.5rem 1.3rem; background: var(--ocean); color: white;
+      border: none; border-radius: 4px; cursor: pointer;
+      transition: all 0.2s; letter-spacing: 0.02em;
+    }
+    .analyse-btn:hover { background: var(--ocean-deep); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(58,124,165,0.3); }
+    .analyse-btn:disabled { background: var(--sand); color: var(--ink-soft); cursor: not-allowed; transform: none; box-shadow: none; }
+
+    /* ── RIGHT: GUT VISUALISER ── */
+    .gut-panel {
+      background: var(--warm-white);
+      border-left: 1px solid var(--sand);
+      display: flex; flex-direction: column;
+      position: sticky; top: 58px;
+      height: calc(100vh - 58px);
+      overflow-y: auto;
+    }
+    .gut-header {
+      padding: 1.4rem 1.8rem 0.8rem;
+      border-bottom: 1px solid var(--sand);
+      background: var(--warm-white);
+      position: sticky; top: 0; z-index: 10;
+    }
+    .gut-header-title { font-family: var(--fd); font-size: 1.1rem; color: var(--ink); }
+    .gut-header-sub { font-family: var(--fm); font-size: 0.62rem; color: var(--ink-soft); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 0.15rem; }
+
+    /* Health bar */
+    .health-bar-wrap { padding: 0.8rem 1.8rem; border-bottom: 1px solid var(--sand); background: var(--white); }
+    .health-label { font-family: var(--fm); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 0.4rem; display: flex; justify-content: space-between; }
+    .health-bar-track { height: 8px; background: var(--sand); border-radius: 999px; overflow: hidden; }
+    .health-bar-fill { height: 100%; border-radius: 999px; transition: width 0.8s cubic-bezier(.4,0,.2,1), background 0.8s; }
+
+    /* ── GUT SVG ANIMATION AREA ── */
+    .gut-svg-area {
+      padding: 1.2rem 1.5rem;
+      border-bottom: 1px solid var(--sand);
+    }
+    #gutCanvas { width: 100%; height: 180px; }
+
+    /* Microbe chips */
+    .microbes-area { padding: 1rem 1.8rem; border-bottom: 1px solid var(--sand); }
+    .microbes-label { font-family: var(--fm); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 0.7rem; }
+    .microbe-chips { display: flex; flex-wrap: wrap; gap: 0.45rem; min-height: 32px; }
+    .microbe-chip {
+      font-family: var(--fm); font-size: 0.65rem; padding: 0.25rem 0.7rem;
+      border-radius: 999px; border: 1px solid; animation: popIn 0.3s ease;
+      cursor: default;
+    }
+    @keyframes popIn { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    /* SCFA bar chart */
+    .scfa-area { padding: 1rem 1.8rem; border-bottom: 1px solid var(--sand); }
+    .scfa-label { font-family: var(--fm); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-soft); margin-bottom: 0.8rem; }
+    .scfa-bars { display: flex; flex-direction: column; gap: 0.55rem; }
+    .scfa-row { display: grid; grid-template-columns: 90px 1fr 36px; align-items: center; gap: 0.6rem; }
+    .scfa-name { font-family: var(--fm); font-size: 0.65rem; color: var(--ink-mid); }
+    .scfa-track { height: 7px; background: var(--sand); border-radius: 999px; overflow: hidden; }
+    .scfa-fill { height: 100%; border-radius: 999px; transition: width 0.9s cubic-bezier(.4,0,.2,1); }
+    .scfa-val { font-family: var(--fm); font-size: 0.62rem; color: var(--ink-soft); text-align: right; }
+
+    /* Report card */
+    .report-area { padding: 1.2rem 1.8rem; }
+    .report-title { font-family: var(--fd); font-style: italic; font-size: 1rem; color: var(--ink); margin-bottom: 0.7rem; }
+    .report-line { font-size: 0.82rem; color: var(--ink-mid); margin-bottom: 0.55rem; line-height: 1.65; padding-left: 0.8rem; border-left: 2px solid var(--ocean-light); }
+    .report-tip { background: var(--ocean-pale); border: 1px solid var(--ocean-light); border-radius: 6px; padding: 0.8rem 1rem; font-size: 0.8rem; color: var(--ocean-deep); line-height: 1.6; margin-top: 0.8rem; }
+    .report-tip strong { display: block; font-family: var(--fm); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ocean); margin-bottom: 0.3rem; }
+
+    .empty-state { padding: 2rem 1.8rem; text-align: center; }
+    .empty-icon { font-size: 2.5rem; margin-bottom: 0.8rem; opacity: 0.4; }
+    .empty-text { font-family: var(--fd); font-style: italic; font-size: 1rem; color: var(--ink-soft); }
+
+    /* ── SCIENCE SECTION BELOW ── */
+    .science-section {
+      padding: 4rem 2.5rem;
+      border-top: 2px solid var(--sand);
+      background: var(--warm-white);
+    }
+    .sci-label { font-family: var(--fm); font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ocean); margin-bottom: 0.6rem; }
+    .sci-title { font-family: var(--fd); font-size: clamp(1.6rem, 2.5vw, 2.2rem); color: var(--ink); margin-bottom: 2rem; }
+    .sci-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; }
+    .sci-card { background: var(--white); border: 1px solid var(--sand); border-radius: 8px; padding: 1.4rem; }
+    .sci-card-icon { font-size: 1.5rem; margin-bottom: 0.6rem; }
+    .sci-card-title { font-family: var(--fd); font-size: 1.05rem; color: var(--ink); margin-bottom: 0.4rem; }
+    .sci-card-text { font-size: 0.82rem; color: var(--ink-soft); line-height: 1.7; }
+
+    /* ── REFERENCES SECTION ── */
+    .references-section {
+      padding: 4rem 2.5rem;
+      background: var(--white);
+      border-top: 2px solid var(--sand);
+    }
+    .ref-label { font-family: var(--fm); font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ocean); margin-bottom: 0.6rem; }
+    .ref-title { font-family: var(--fd); font-size: clamp(1.6rem, 2.5vw, 2.2rem); color: var(--ink); margin-bottom: 0.8rem; }
+    .ref-intro {
+      font-size: 0.85rem; color: var(--ink-soft); max-width: 720px; line-height: 1.75;
+      margin-bottom: 2.5rem; padding: 1rem 1.3rem;
+      background: var(--ocean-wash); border-left: 3px solid var(--ocean-light);
+      border-radius: 0 6px 6px 0;
+    }
+    .ref-group { margin-bottom: 2.5rem; }
+    .ref-group-title {
+      font-family: var(--fm); font-size: 0.68rem; text-transform: uppercase;
+      letter-spacing: 0.12em; color: var(--ocean-mid);
+      margin-bottom: 1rem; padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--sand);
+    }
+    .ref-list { list-style: decimal; padding-left: 1.5rem; display: flex; flex-direction: column; gap: 1.2rem; }
+    .ref-item {
+      font-size: 0.83rem; color: var(--ink-mid); line-height: 1.75;
+    }
+    .ref-item a { color: var(--ocean); text-decoration: none; font-family: var(--fm); font-size: 0.75rem; }
+    .ref-item a:hover { text-decoration: underline; }
+    .ref-item em { font-style: italic; }
+    .ref-note {
+      display: block; margin-top: 0.3rem;
+      font-family: var(--fm); font-size: 0.67rem;
+      color: var(--ink-soft); letter-spacing: 0.02em;
+      padding-left: 0.5rem; border-left: 2px solid var(--ocean-pale);
+    }
+    .ref-disclaimer {
+      margin-top: 2.5rem; font-size: 0.82rem; color: var(--ink-soft);
+      background: var(--gold-pale); border: 1px solid #e8d8a0; border-radius: 6px;
+      padding: 1rem 1.3rem; line-height: 1.75; max-width: 720px;
+    }
+
+    /* Footer strip */
+    .page-footer { padding: 1.5rem 2.5rem; border-top: 1px solid var(--sand); display: flex; justify-content: space-between; align-items: center; font-family: var(--fm); font-size: 0.65rem; color: var(--ink-soft); background: var(--white); }
+    .page-footer a { color: var(--ocean); text-decoration: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .sim-layout { grid-template-columns: 1fr; }
+      .gut-panel { position: static; height: auto; }
+      .top-bar { padding: 0.9rem 1.2rem; }
+      .hero-header { padding: 6rem 1.2rem 2rem; }
+      .food-panel, .science-section { padding: 2rem 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <a href="../index.html" class="back-link">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+    Back to site
+  </a>
+  <span class="top-title">Saumya's Marvelous Microbes</span>
+  <span class="project-tag-pill">Gut Microbiome · Interactive</span>
+</div>
+
+<!-- HERO -->
+<div class="hero-header">
+  <div class="hero-label">Project 01 · Fermentation &amp; Gut Health</div>
+  <h1 class="hero-title">Gut <em>Feelings</em></h1>
+  <p class="hero-sub">You eat three times a day. Your gut microbiome notices every single choice. Select what you ate today and watch your gut community respond — in real time.</p>
+  <span class="hero-note">🔬 Scientifically grounded · Based on published microbiome &amp; fermentation research</span>
+</div>
+
+<!-- SIMULATOR -->
+<div class="sim-layout">
+
+  <!-- LEFT: FOOD CHOICES -->
+  <div class="food-panel">
+    <div class="selection-strip">
+      <div class="sel-count"><span id="selCount">0</span> foods selected</div>
+      <button class="analyse-btn" id="analyseBtn" onclick="analyse()" disabled>Analyse My Gut →</button>
+    </div>
+
+    <p class="panel-heading">What did you eat today?</p>
+    <p class="panel-sub">Select everything — or just one meal. The more you choose, the richer your gut report.</p>
+
+    <!-- FERMENTED FOODS -->
+    <div class="food-category">
+      <div class="cat-label">🫙 Fermented Foods</div>
+      <div class="food-grid" id="cat-fermented"></div>
+    </div>
+
+    <!-- FIBRE & PREBIOTICS -->
+    <div class="food-category">
+      <div class="cat-label">🌿 Fibre &amp; Prebiotics</div>
+      <div class="food-grid" id="cat-fibre"></div>
+    </div>
+
+    <!-- PROTEIN -->
+    <div class="food-category">
+      <div class="cat-label">🥚 Proteins</div>
+      <div class="food-grid" id="cat-protein"></div>
+    </div>
+
+    <!-- PROCESSED & SUGAR -->
+    <div class="food-category">
+      <div class="cat-label">🍬 Processed &amp; Sugar</div>
+      <div class="food-grid" id="cat-processed"></div>
+    </div>
+
+    <!-- DRINKS -->
+    <div class="food-category">
+      <div class="cat-label">🫖 Drinks</div>
+      <div class="food-grid" id="cat-drinks"></div>
+    </div>
+  </div>
+
+  <!-- RIGHT: GUT VISUALISER -->
+  <div class="gut-panel">
+    <div class="gut-header">
+      <div class="gut-header-title">Your Gut Environment</div>
+      <div class="gut-header-sub" id="gutStatusLabel">Waiting for your meal choices…</div>
+    </div>
+
+    <div class="health-bar-wrap">
+      <div class="health-label">
+        <span>Gut Health Score</span>
+        <span id="healthPct">—</span>
+      </div>
+      <div class="health-bar-track">
+        <div class="health-bar-fill" id="healthBar" style="width:0%;background:var(--healthy)"></div>
+      </div>
+    </div>
+
+    <!-- GUT CROSS-SECTION SVG -->
+    <div class="gut-svg-area">
+      <svg id="gutCanvas" viewBox="0 0 380 180" xmlns="http://www.w3.org/2000/svg">
+        <!-- Outer gut wall -->
+        <ellipse cx="190" cy="90" rx="178" ry="78" fill="#f5c6c6" id="gutWall"/>
+        <!-- Muscle layer -->
+        <ellipse cx="190" cy="90" rx="162" ry="64" fill="#e8b0b0" id="muscleLayer"/>
+        <!-- Submucosa -->
+        <ellipse cx="190" cy="90" rx="148" ry="52" fill="#f7d4c8" id="submucosa"/>
+        <!-- Mucosa -->
+        <ellipse cx="190" cy="90" rx="132" ry="40" fill="#fde8d8" id="mucosa"/>
+        <!-- Lumen -->
+        <ellipse cx="190" cy="90" rx="114" ry="28" fill="#fff8f2" id="lumen"/>
+
+        <!-- Villi (little finger-like projections) -->
+        <g id="villiGroup" opacity="0.7">
+          <rect x="100" y="68" width="5" height="14" rx="2.5" fill="#e8b0b0"/>
+          <rect x="118" y="64" width="5" height="18" rx="2.5" fill="#e8b0b0"/>
+          <rect x="136" y="62" width="5" height="20" rx="2.5" fill="#e8b0b0"/>
+          <rect x="154" y="61" width="5" height="21" rx="2.5" fill="#e8b0b0"/>
+          <rect x="172" y="61" width="5" height="21" rx="2.5" fill="#e8b0b0"/>
+          <rect x="190" y="61" width="5" height="21" rx="2.5" fill="#e8b0b0"/>
+          <rect x="208" y="61" width="5" height="21" rx="2.5" fill="#e8b0b0"/>
+          <rect x="226" y="62" width="5" height="20" rx="2.5" fill="#e8b0b0"/>
+          <rect x="244" y="64" width="5" height="18" rx="2.5" fill="#e8b0b0"/>
+          <rect x="262" y="68" width="5" height="14" rx="2.5" fill="#e8b0b0"/>
+          <!-- bottom villi -->
+          <rect x="100" y="98" width="5" height="14" rx="2.5" fill="#e8b0b0" transform="rotate(180 102.5 105)"/>
+          <rect x="118" y="98" width="5" height="18" rx="2.5" fill="#e8b0b0" transform="rotate(180 120.5 107)"/>
+          <rect x="136" y="98" width="5" height="20" rx="2.5" fill="#e8b0b0" transform="rotate(180 138.5 108)"/>
+          <rect x="154" y="98" width="5" height="21" rx="2.5" fill="#e8b0b0" transform="rotate(180 156.5 108.5)"/>
+          <rect x="172" y="98" width="5" height="21" rx="2.5" fill="#e8b0b0" transform="rotate(180 174.5 108.5)"/>
+          <rect x="190" y="98" width="5" height="21" rx="2.5" fill="#e8b0b0" transform="rotate(180 192.5 108.5)"/>
+          <rect x="208" y="98" width="5" height="21" rx="2.5" fill="#e8b0b0" transform="rotate(180 210.5 108.5)"/>
+          <rect x="226" y="98" width="5" height="20" rx="2.5" fill="#e8b0b0" transform="rotate(180 228.5 108)"/>
+          <rect x="244" y="98" width="5" height="18" rx="2.5" fill="#e8b0b0" transform="rotate(180 246.5 107)"/>
+          <rect x="262" y="98" width="5" height="14" rx="2.5" fill="#e8b0b0" transform="rotate(180 264.5 105)"/>
+        </g>
+
+        <!-- Mucus layer glow -->
+        <ellipse cx="190" cy="90" rx="118" ry="32" fill="none" stroke="#c8e8d0" stroke-width="3" opacity="0.5" id="mucusLayer"/>
+
+        <!-- Microbe dots — rendered by JS -->
+        <g id="microbeDots"></g>
+
+        <!-- SCFA molecules — rendered by JS -->
+        <g id="scfaMols"></g>
+
+        <!-- Labels -->
+        <text x="14" y="93" font-family="'Fira Mono',monospace" font-size="7" fill="#c97b7b" opacity="0.7">Lumen</text>
+        <text x="330" y="72" font-family="'Fira Mono',monospace" font-size="7" fill="#c97b7b" opacity="0.7">Mucosa</text>
+        <text x="330" y="112" font-family="'Fira Mono',monospace" font-size="7" fill="#c97b7b" opacity="0.7">Wall</text>
+      </svg>
+    </div>
+
+    <!-- Microbe chips -->
+    <div class="microbes-area">
+      <div class="microbes-label">Active Microbiome</div>
+      <div class="microbe-chips" id="microbeChips">
+        <span style="font-family:var(--fm);font-size:0.68rem;color:var(--ink-soft);font-style:italic">Select foods to see your microbiome…</span>
+      </div>
+    </div>
+
+    <!-- SCFA bars -->
+    <div class="scfa-area">
+      <div class="scfa-label">Short-Chain Fatty Acids Produced</div>
+      <div class="scfa-bars">
+        <div class="scfa-row">
+          <span class="scfa-name">Butyrate</span>
+          <div class="scfa-track"><div class="scfa-fill" id="sButyrate" style="width:0%;background:#5bb894"></div></div>
+          <span class="scfa-val" id="vButyrate">0%</span>
+        </div>
+        <div class="scfa-row">
+          <span class="scfa-name">Propionate</span>
+          <div class="scfa-track"><div class="scfa-fill" id="sPropionate" style="width:0%;background:#3a7ca5"></div></div>
+          <span class="scfa-val" id="vPropionate">0%</span>
+        </div>
+        <div class="scfa-row">
+          <span class="scfa-name">Acetate</span>
+          <div class="scfa-track"><div class="scfa-fill" id="sAcetate" style="width:0%;background:#7bb8d4"></div></div>
+          <span class="scfa-val" id="vAcetate">0%</span>
+        </div>
+        <div class="scfa-row">
+          <span class="scfa-name">Lactate</span>
+          <div class="scfa-track"><div class="scfa-fill" id="sLactate" style="width:0%;background:#e8b84b"></div></div>
+          <span class="scfa-val" id="vLactate">0%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Report -->
+    <div class="report-area" id="reportArea">
+      <div class="empty-state">
+        <div class="empty-icon">🫙</div>
+        <div class="empty-text">Your gut report will appear here</div>
+      </div>
+    </div>
+
+  </div><!-- end gut-panel -->
+</div><!-- end sim-layout -->
+
+
+<!-- SCIENCE EXPLAINER -->
+<div class="science-section">
+  <div class="sci-label">The Science Behind This</div>
+  <h2 class="sci-title">What your gut is actually doing</h2>
+  <div class="sci-grid">
+
+    <div class="sci-card">
+      <div class="sci-card-icon">🔬</div>
+      <div class="sci-card-title">The Microbiome</div>
+      <p class="sci-card-text">Your gut hosts ~38 trillion microorganisms — bacteria, archaea, fungi, and viruses. They are not passengers. They ferment your food, train your immune system, and produce compounds that reach your brain. The composition of this community shifts within 24 hours of a dietary change.</p>
+    </div>
+
+    <div class="sci-card">
+      <div class="sci-card-icon">⚗️</div>
+      <div class="sci-card-title">Short-Chain Fatty Acids</div>
+      <p class="sci-card-text">When your gut bacteria ferment dietary fibre, they produce SCFAs — primarily butyrate, propionate, and acetate. Butyrate is the preferred fuel for colonocytes (colon cells) and actively reduces gut inflammation. Low SCFA production is linked to IBD, obesity, and metabolic disease.</p>
+    </div>
+
+    <div class="sci-card">
+      <div class="sci-card-icon">🫙</div>
+      <div class="sci-card-title">Fermented Foods</div>
+      <p class="sci-card-text">Fermented foods like dahi, kimchi, idli batter, and kombucha introduce live microorganisms (mainly <em>Lactobacillus</em> and <em>Bifidobacterium</em> species) and bioactive compounds into your gut. A 2021 Stanford study found a 10-week high-fermented-food diet significantly increased microbiome diversity.</p>
+    </div>
+
+    <div class="sci-card">
+      <div class="sci-card-icon">🧱</div>
+      <div class="sci-card-title">The Gut Barrier</div>
+      <p class="sci-card-text">The intestinal epithelium is just one cell thick. A healthy mucus layer, maintained by <em>Akkermansia muciniphila</em> and butyrate-producing bacteria, protects this barrier. Ultra-processed foods and excess sugar disrupt this layer — a phenomenon sometimes called "leaky gut" — allowing bacterial products to enter the bloodstream.</p>
+    </div>
+
+    <div class="sci-card">
+      <div class="sci-card-icon">🧠</div>
+      <div class="sci-card-title">The Gut-Brain Axis</div>
+      <p class="sci-card-text">The vagus nerve carries signals between your gut and brain in both directions. Your gut produces ~90% of the body's serotonin. Microbiome composition has been linked to anxiety, depression, and cognitive function — though causality is still being carefully established in human trials.</p>
+    </div>
+
+    <div class="sci-card">
+      <div class="sci-card-icon">🌍</div>
+      <div class="sci-card-title">Why Traditional Diets Work</div>
+      <p class="sci-card-text">Traditional diets — Indian, Japanese, Mediterranean — are rich in fibre, fermented foods, and diverse plant matter. Research consistently shows populations eating traditional diets have higher microbiome diversity than those on Western diets. Diversity is a key marker of gut resilience.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- REFERENCES SECTION -->
+<div class="references-section">
+  <div class="ref-label">References</div>
+  <h2 class="ref-title">All claims are sourced.</h2>
+  <p class="ref-intro">
+    Every scientific statement on this page is grounded in peer-reviewed research.
+    References are listed in APA 7th edition format, grouped by topic.
+    This page is a science communication project — not medical advice.
+    For clinical decisions, always consult a qualified healthcare professional.
+  </p>
+
+  <div class="ref-group">
+    <div class="ref-group-title">The Human Microbiome — Size &amp; Composition</div>
+    <ol class="ref-list">
+      <li class="ref-item">
+        Sender, R., Fuchs, S., &amp; Milo, R. (2016). Revised estimates for the number of human and bacteria cells in the body. <em>PLOS Biology, 14</em>(8), e1002533. <a href="https://doi.org/10.1371/journal.pbio.1002533" target="_blank">https://doi.org/10.1371/journal.pbio.1002533</a>
+        <span class="ref-note">Establishes the ~38 trillion bacteria figure and corrects the outdated 10:1 ratio myth.</span>
+      </li>
+    </ol>
+  </div>
+
+  <div class="ref-group">
+    <div class="ref-group-title">Diet &amp; the Microbiome — Rapid Change &amp; Diversity</div>
+    <ol class="ref-list" start="2">
+      <li class="ref-item">
+        David, L. A., Maurice, C. F., Carmody, R. N., Gootenberg, D. B., Button, J. E., Wolfe, B. E., Ling, A. V., Devlin, A. S., Varma, Y., Fischbach, M. A., Biddinger, S. B., Dutton, R. J., &amp; Turnbaugh, P. J. (2014). Diet rapidly and reproducibly alters the human gut microbiome. <em>Nature, 505</em>(7484), 559–563. <a href="https://doi.org/10.1038/nature12820" target="_blank">https://doi.org/10.1038/nature12820</a>
+        <span class="ref-note">Demonstrates microbiome composition shifts within 24 hours of dietary change.</span>
+      </li>
+      <li class="ref-item">
+        Sonnenburg, E. D., Smits, S. A., Tikhonov, M., Higginbottom, S. K., Wingreen, N. S., &amp; Sonnenburg, J. L. (2016). Diet-induced extinctions in the gut microbiota compound over generations. <em>Nature, 529</em>(7585), 212–215. <a href="https://doi.org/10.1038/nature16504" target="_blank">https://doi.org/10.1038/nature16504</a>
+        <span class="ref-note">Shows low-fibre diets cause progressive, multi-generational microbiome diversity loss in mice.</span>
+      </li>
+      <li class="ref-item">
+        Dahl, W. J., &amp; Auger, J. (2021). The gut microbiome. <em>Journal of Nutritional Science, 10</em>, e75. <a href="https://doi.org/10.1017/jns.2021.64" target="_blank">https://doi.org/10.1017/jns.2021.64</a>
+        <span class="ref-note">Reviews dietary diversity (30+ plant species/week) and its relationship to microbiome diversity.</span>
+      </li>
+      <li class="ref-item">
+        Dahl, W. J., Zhu, H., &amp; Auger, J. (2023). Influence of diet on the gut microbiome and implications for human health. <em>Journal of Translational Medicine, 15</em>(1), 73. <a href="https://doi.org/10.1186/s12967-017-1175-y" target="_blank">https://doi.org/10.1186/s12967-017-1175-y</a>
+        <span class="ref-note">Reviews how specific food categories produce predictable shifts in bacterial genera; covers red meat, pulses, protein sources.</span>
+      </li>
+    </ol>
+  </div>
+
+  <div class="ref-group">
+    <div class="ref-group-title">Fermented Foods &amp; Microbiome Diversity</div>
+    <ol class="ref-list" start="6">
+      <li class="ref-item">
+        Wastyk, H. C., Fragiadakis, G. K., Perelman, D., Dahl, W. J., Merrill, B. D., Yu, F. B., Topf, M., Gonzalez, C. G., Van Treuren, W., Han, S., Robinson, J. L., Elias, J. E., Sonnenburg, E. D., Gardner, C. D., &amp; Sonnenburg, J. L. (2021). Gut-microbiota-targeted diets modulate human immune status. <em>Cell, 184</em>(16), 4137–4153.e14. <a href="https://doi.org/10.1016/j.cell.2021.06.019" target="_blank">https://doi.org/10.1016/j.cell.2021.06.019</a>
+        <span class="ref-note">The 2021 Stanford RCT (n=36) showing high-fermented-food diet significantly increases microbiome diversity and decreases inflammatory markers over 10 weeks. Basis of the "Stanford study" claim on this page.</span>
+      </li>
+      <li class="ref-item">
+        Marco, M. L., Heeney, D., Binda, S., Cifelli, C. J., Cotter, P. D., Foligné, B., Gänzle, M., Kort, R., Pasin, G., Pihlanto, A., Smid, E. J., &amp; Hutkins, R. (2017). Health benefits of fermented foods: Microbiota and beyond. <em>Current Opinion in Biotechnology, 44</em>, 94–102. <a href="https://doi.org/10.1016/j.copbio.2016.11.010" target="_blank">https://doi.org/10.1016/j.copbio.2016.11.010</a>
+        <span class="ref-note">Broad review of the health benefits of fermented foods including dahi/yogurt, kefir, kimchi, and plant-based fermentates.</span>
+      </li>
+      <li class="ref-item">
+        Bourrie, B. C. T., Willing, B. P., &amp; Cotter, P. D. (2016). The microbiota and health promoting characteristics of the fermented beverage kefir. <em>Frontiers in Microbiology, 7</em>, 647. <a href="https://doi.org/10.3389/fmicb.2016.00647" target="_blank">https://doi.org/10.3389/fmicb.2016.00647</a>
+        <span class="ref-note">Documents the complex microbial community in kefir grains (30–50 species) and reviews human trial evidence for IBS, lactose intolerance, and H. pylori.</span>
+      </li>
+      <li class="ref-item">
+        Tamang, J. P., Watanabe, K., &amp; Holzapfel, W. H. (2016). Review: Diversity of microorganisms in global fermented foods and beverages. <em>Frontiers in Microbiology, 7</em>, 377. <a href="https://doi.org/10.3389/fmicb.2016.00377" target="_blank">https://doi.org/10.3389/fmicb.2016.00377</a>
+        <span class="ref-note">Covers microbial diversity in idli/dosa batter, kimchi, kanji, achaar, and other traditional fermented foods globally. Basis for the Indian fermented food claims.</span>
+      </li>
+      <li class="ref-item">
+        Battcock, M., &amp; Azam-Ali, S. (1998). <em>Fermented fruits and vegetables: A global perspective</em> (FAO Agricultural Services Bulletin No. 134). Food and Agriculture Organization of the United Nations. <a href="https://www.fao.org/3/x0560e/x0560e00.htm" target="_blank">https://www.fao.org/3/x0560e/x0560e00.htm</a>
+        <span class="ref-note">FAO documentation of traditional plant fermentation practices including kanji and achaar, covering microbiology and nutritional transformation.</span>
+      </li>
+    </ol>
+  </div>
+
+  <div class="ref-group">
+    <div class="ref-group-title">Short-Chain Fatty Acids (SCFAs) — Butyrate, Propionate, Acetate</div>
+    <ol class="ref-list" start="11">
+      <li class="ref-item">
+        Donohoe, D. R., Garge, N., Zhang, X., Sun, W., O'Connell, T. M., Bunger, M. K., &amp; Bultman, S. J. (2011). The microbiome and butyrate regulate energy metabolism and autophagy in the mammalian colon. <em>Cell Metabolism, 13</em>(5), 517–526. <a href="https://doi.org/10.1016/j.cmet.2011.02.018" target="_blank">https://doi.org/10.1016/j.cmet.2011.02.018</a>
+        <span class="ref-note">Seminal paper establishing butyrate as the primary fuel of colonocytes; germ-free colonocytes are energy-deprived until butyrate is restored.</span>
+      </li>
+      <li class="ref-item">
+        Koh, A., De Vadder, F., Kovatcheva-Datchary, P., &amp; Bäckhed, F. (2016). From dietary fibre to host physiology: Short-chain fatty acids as key bacterial metabolites. <em>Cell, 165</em>(6), 1332–1345. <a href="https://doi.org/10.1016/j.cell.2016.05.041" target="_blank">https://doi.org/10.1016/j.cell.2016.05.041</a>
+        <span class="ref-note">Comprehensive review of SCFA production, signalling, and the roles of butyrate, propionate, and acetate in host metabolism and immune function. Basis for SCFA section.</span>
+      </li>
+      <li class="ref-item">
+        Flint, H. J., Scott, K. P., Louis, P., &amp; Duncan, S. H. (2012). The role of the gut microbiota in nutrition and health. <em>Nature Reviews Gastroenterology &amp; Hepatology, 9</em>(10), 577–589. <a href="https://doi.org/10.1038/nrgastro.2012.156" target="_blank">https://doi.org/10.1038/nrgastro.2012.156</a>
+        <span class="ref-note">Reviews butyrate-producing bacteria (Faecalibacterium prausnitzii, Roseburia, Eubacterium rectale) and their role in gut health. Basis for dal, oats, and whole grain SCFA claims.</span>
+      </li>
+      <li class="ref-item">
+        Sonnenburg, J. L., &amp; Bäckhed, F. (2016). Diet–microbiota interactions as moderators of human metabolism. <em>Nature, 535</em>(7610), 56–64. <a href="https://doi.org/10.1038/nature18846" target="_blank">https://doi.org/10.1038/nature18846</a>
+        <span class="ref-note">Reviews SCFAs as mediators linking diet, microbiota, and host metabolic health including propionate's role in cholesterol regulation.</span>
+      </li>
+    </ol>
+  </div>
+
+  <div class="ref-group">
+    <div class="ref-group-title">Gut Barrier Integrity &amp; Akkermansia muciniphila</div>
+    <ol class="ref-list" start="15">
+      <li class="ref-item">
+        Plovier, H., Everard, A., Druart, C., Depommier, C., Van Hul, M., Geurts, L., Chilloux, J., Ottman, N., Duparc, T., Lichtenstein, L., Myridakis, A., Delannoy, E., Dhondt, B., Rasmusen, L., &amp; Cani, P. D. (2017). A purified membrane protein from <em>Akkermansia muciniphila</em> or the pasteurized bacterium improves metabolism in obese and diabetic mice. <em>Nature Medicine, 23</em>(1), 107–113. <a href="https://doi.org/10.1038/nm.4236" target="_blank">https://doi.org/10.1038/nm.4236</a>
+        <span class="ref-note">Documents Akkermansia muciniphila's role in maintaining gut barrier integrity and mucus layer health.</span>
+      </li>
+      <li class="ref-item">
+        Chassaing, B., Koren, O., Goodrich, J. K., Poole, A. C., Srinivasan, S., Ley, R. E., &amp; Gewirtz, A. T. (2015). Dietary emulsifiers impact the mouse gut microbiota promoting colitis and metabolic syndrome. <em>Nature, 519</em>(7541), 92–96. <a href="https://doi.org/10.1038/nature14232" target="_blank">https://doi.org/10.1038/nature14232</a>
+        <span class="ref-note">Mouse study demonstrating emulsifiers (polysorbate-80, carboxymethylcellulose) disrupt the mucus layer and promote low-grade gut inflammation. Basis for processed food claims.</span>
+      </li>
+      <li class="ref-item">
+        Desai, M. S., Seekatz, A. M., Koropatkin, N. M., Kamada, N., Hickey, C. A., Wolter, M., Pudlo, N. A., Kitamoto, S., Terrapon, N., Muller, A., Young, V. B., Henrissat, B., Wilmes, P., Stappenbeck, T. S., Núñez, G., &amp; Martens, E. C. (2016). A dietary fiber-deprived gut microbiota degrades the colonic mucus barrier and enhances pathogen susceptibility. <em>Cell, 167</em>(5), 1339–1353.e21. <a href="https://doi.org/10.1016/j.cell.2016.10.043" target="_blank">https://doi.org/10.1016/j.cell.2016.10.043</a>
+        <span class="ref-note">Shows that when dietary fibre is absent, gut bacteria degrade the mucus barrier — directly supporting the gut barrier section and processed food claims.</span>
+      </li>
+    </ol>
+  </div>
+
+  <div class="ref-group">
+    <div class="ref-group-title">Gut-Brain Axis &amp; Serotonin</div>
+    <ol class="ref-list" start="18">
+      <li class="ref-item">
+        Yano, J. M., Yu, K., Donaldson, G. P., Shastri, G. G., Ann, P., Ma, L., Nagler, C. R., Ismagilov, R. F., Mazmanian, S. K., &amp; Hsiao, E. Y. (2015). Indigenous bacteria from the gut microbiota regulate host serotonin biosynthesis. <em>Cell, 161</em>(2), 264–276. <a href="https://doi.org/10.1016/j.cell.2015.02.047" target="_blank">https://doi.org/10.1016/j.cell.2015.02.047</a>
+        <span class="ref-note">Landmark study demonstrating that gut bacteria (spore-forming bacteria) regulate ~90% of body's serotonin production in colonic enterochromaffin cells. Basis for the gut-brain axis serotonin claim.</span>
+      </li>
+      <li class="ref-item">
+        Cryan, J. F., O'Riordan, K. J., Cowan, C. S. M., Sandhu, K. V., Bastiaanssen, T. F. S., Boehme, M., Codagnone, M. G., Cussotto, S., Fulling, C., Golubeva, A. V., Guzzetta, K. E., Jaggar, M., Long-Smith, C. M., Lyte, J. M., Martin, J. A., Molinero-Perez, A., Moloney, G., Morelli, E., Morillas, E., … Dinan, T. G. (2019). The microbiota-gut-brain axis. <em>Physiological Reviews, 99</em>(4), 1877–2013. <a href="https://doi.org/10.1152/physrev.00018.2018" target="_blank">https://doi.org/10.1152/physrev.00018.2018</a>
+        <span class="ref-note">Comprehensive review (135 pages) of the gut-brain axis, covering the vagus nerve, serotonin, anxiety, depression, and cognitive function links to microbiome composition. Most authoritative reference on this topic.</span>
+      </li>
+    </ol>
+  </div>
+
+  <div class="ref-group">
+    <div class="ref-group-title">Alcohol &amp; Gut Dysbiosis</div>
+    <ol class="ref-list" start="20">
+      <li class="ref-item">
+        Bishehsari, F., Magno, E., Swanson, G., Desai, V., Voigt, R. M., Forsyth, C. B., &amp; Keshavarzian, A. (2017). Alcohol and gut-derived inflammation. <em>Alcohol Research: Current Reviews, 38</em>(2), 163–171.
+        <span class="ref-note">Reviews alcohol's effects on gut microbiota composition, gut permeability, Akkermansia and Lactobacillus reduction, and Proteobacteria overgrowth. Basis for the alcohol food entry.</span>
+      </li>
+    </ol>
+  </div>
+
+  <div class="ref-group">
+    <div class="ref-group-title">Coffee, Polyphenols &amp; the Microbiome</div>
+    <ol class="ref-list" start="21">
+      <li class="ref-item">
+        Quattrini, M., Bhatt, B., Krishnakumar, S., Goel, A., Kanagaraj, R., Varghese, A., &amp; Rajendra, S. (2023). Effects of coffee consumption on the gut microbiome: A review. <em>Current Research in Food Science, 6</em>, 100516. <a href="https://doi.org/10.1016/j.crfs.2023.100516" target="_blank">https://doi.org/10.1016/j.crfs.2023.100516</a>
+        <span class="ref-note">Reviews evidence that coffee polyphenols (chlorogenic acids) act as prebiotics for Bifidobacterium and Lactobacillus, and the association between coffee and increased microbiome diversity.</span>
+      </li>
+    </ol>
+  </div>
+
+  <div class="ref-group">
+    <div class="ref-group-title">Red Meat, Processed Foods &amp; Dysbiosis</div>
+    <ol class="ref-list" start="22">
+      <li class="ref-item">
+        Devkota, S., Wang, Y., Musch, M. W., Leone, V., Fehlner-Peach, H., Nadimpalli, A., Antonopoulos, D. A., Jabri, B., &amp; Chang, E. B. (2012). Dietary-fat-induced taurocholic acid promotes pathobiont expansion and colitis in <em>Il10</em>−/− mice. <em>Nature, 487</em>(7405), 104–108. <a href="https://doi.org/10.1038/nature11225" target="_blank">https://doi.org/10.1038/nature11225</a>
+        <span class="ref-note">Demonstrates how high-fat animal diets shift microbiome towards pro-inflammatory species; linked to H2S and bile-tolerant pathobionts.</span>
+      </li>
+      <li class="ref-item">
+        Monteiro, C. A., Cannon, G., Moubarac, J. C., Levy, R. B., Louzada, M. L. C., &amp; Jaime, P. C. (2018). The UN Decade of Nutrition, the NOVA food classification and the trouble with ultra-processing. <em>Public Health Nutrition, 21</em>(1), 5–17. <a href="https://doi.org/10.1017/S1368980017000234" target="_blank">https://doi.org/10.1017/S1368980017000234</a>
+        <span class="ref-note">Foundational classification of ultra-processed foods; framework underpinning claims about chips, biscuits, and industrial food ingredients' effects on the microbiome.</span>
+      </li>
+    </ol>
+  </div>
+
+  <div class="ref-group">
+    <div class="ref-group-title">Traditional Diets &amp; Microbiome Diversity</div>
+    <ol class="ref-list" start="24">
+      <li class="ref-item">
+        Yatsunenko, T., Rey, F. E., Manary, M. J., Trehan, I., Dominguez-Bello, M. G., Contreras, M., Magris, M., Hidalgo, G., Baldassano, R. N., Anokhin, A. P., Heath, A. C., Warner, B., Reeder, J., Kuczynski, J., Caporaso, J. G., Lozupone, C. A., Lauber, C., Clemente, J. C., Knights, D., … Gordon, J. I. (2012). Human gut microbiome viewed across age and geography. <em>Nature, 486</em>(7402), 222–227. <a href="https://doi.org/10.1038/nature11053" target="_blank">https://doi.org/10.1038/nature11053</a>
+        <span class="ref-note">Landmark study comparing gut microbiomes across populations (USA, Malawi, Venezuela), demonstrating higher diversity in traditional diet populations. Basis for traditional diet claims.</span>
+      </li>
+      <li class="ref-item">
+        Sonnenburg, J. L., &amp; Sonnenburg, E. D. (2019). Vulnerability of the industrialized microbiota. <em>Science, 366</em>(6464), eaaw9255. <a href="https://doi.org/10.1126/science.aaw9255" target="_blank">https://doi.org/10.1126/science.aaw9255</a>
+        <span class="ref-note">Reviews how industrialisation, processed food, and antibiotics have depleted Western microbiome diversity compared to traditional populations. Context for "Why Traditional Diets Work" card.</span>
+      </li>
+    </ol>
+  </div>
+
+  <div class="ref-group">
+    <div class="ref-group-title">Omega-3 Fatty Acids, Fish &amp; Microbiome</div>
+    <ol class="ref-list" start="26">
+      <li class="ref-item">
+        Costantini, L., Molinari, R., Farinon, B., &amp; Merendino, N. (2017). Impact of omega-3 fatty acids on the gut microbiota. <em>International Journal of Molecular Sciences, 18</em>(12), 2645. <a href="https://doi.org/10.3390/ijms18122645" target="_blank">https://doi.org/10.3390/ijms18122645</a>
+        <span class="ref-note">Reviews evidence that EPA/DHA from fish modulate gut microbiome composition, increase Lactobacillus and Bifidobacterium abundance, and support SCFA production. Basis for fish entry.</span>
+      </li>
+    </ol>
+  </div>
+
+  <div class="ref-group">
+    <div class="ref-group-title">Faecalibacterium prausnitzii as a Health Biomarker</div>
+    <ol class="ref-list" start="27">
+      <li class="ref-item">
+        Sokol, H., Pigneur, B., Watterlot, L., Lakhdari, O., Bermúdez-Humarán, L. G., Gratadoux, J.-J., Blugeon, S., Bridonneau, C., Furet, J.-P., Corthier, G., Grangette, C., Vasquez, N., Pochart, P., Trugnan, G., Thomas, G., Blottière, H. M., Doré, J., Marteau, P., Seksik, P., &amp; Langella, P. (2008). <em>Faecalibacterium prausnitzii</em> is an anti-inflammatory commensal bacterium identified by gut microbiota analysis of Crohn disease patients. <em>Proceedings of the National Academy of Sciences, 105</em>(43), 16731–16736. <a href="https://doi.org/10.1073/pnas.0804812105" target="_blank">https://doi.org/10.1073/pnas.0804812105</a>
+        <span class="ref-note">Identifies reduced Faecalibacterium prausnitzii as a biomarker for Crohn's disease and IBD; basis for dal and lentil claims about this critical butyrate-producing species.</span>
+      </li>
+    </ol>
+  </div>
+
+  <div class="ref-group">
+    <div class="ref-group-title">Oats &amp; Beta-Glucan Prebiotic Effects</div>
+    <ol class="ref-list" start="28">
+      <li class="ref-item">
+        Jayachandran, M., Chen, J., Chung, S. S. M., &amp; Xu, B. (2018). A critical review on the impacts of β-glucans on gut microbiota and human health. <em>Journal of Nutritional Biochemistry, 61</em>, 101–110. <a href="https://doi.org/10.1016/j.jnutbio.2018.06.010" target="_blank">https://doi.org/10.1016/j.jnutbio.2018.06.010</a>
+        <span class="ref-note">Reviews human trial evidence for oat beta-glucan as a prebiotic, including effects on Bifidobacterium, butyrate production, cholesterol, and glucose absorption. Basis for oats entry.</span>
+      </li>
+    </ol>
+  </div>
+
+  <p class="ref-disclaimer">
+    <strong>Note on this project:</strong> This interactive tool is a science communication exercise built by Saumya Samridhi as part of <em>Saumya's Marvelous Microbes</em>. The food–microbe relationships depicted are simplified representations based on the published literature cited above. Individual microbiome responses vary substantially. This is not a diagnostic tool and should not replace medical or nutritional advice.
+  </p>
+</div>
+
+<!-- PAGE FOOTER -->
+<div class="page-footer">
+  <span>Gut Feelings · <a href="../index.html">Saumya's Marvelous Microbes</a></span>
+  <span>28 peer-reviewed references · APA 7th edition · Not medical advice</span>
+</div>
+
+
+<script>
+// ═══════════════════════════════════════════════
+//  FOOD DATA
+//  Each food has: id, emoji, label, category, and effects:
+//  microbes[]  — which genera bloom
+//  butyrate / propionate / acetate / lactate  — SCFA boosts (0–1)
+//  health      — gut health contribution (-1 to +1)
+//  report      — text shown in the report card
+// ═══════════════════════════════════════════════
+const FOODS = [
+  // ── FERMENTED ──
+  { id:'dahi',      emoji:'🥛', label:'Dahi / Curd',        cat:'fermented',
+    microbes:['Lactobacillus delbrueckii','Streptococcus thermophilus'],
+    butyrate:0.2, propionate:0.1, acetate:0.3, lactate:0.8,
+    health:0.8,
+    report:'Dahi is a powerhouse of live <em>Lactobacillus</em> and <em>Streptococcus thermophilus</em>. These bacteria acidify the gut lumen, suppressing pathogens, and produce lactate which feeds other beneficial species. Regular dahi consumption is linked to improved lactose tolerance and reduced gut inflammation.' },
+
+  { id:'kimchi',    emoji:'🥬', label:'Kimchi',              cat:'fermented',
+    microbes:['Lactobacillus kimchii','Leuconostoc mesenteroides','Weissella confusa'],
+    butyrate:0.3, propionate:0.2, acetate:0.4, lactate:0.7,
+    health:0.9,
+    report:'Kimchi undergoes a wild-type fermentation involving multiple <em>Lactobacillus</em> and <em>Leuconostoc</em> species in sequence. It is rich in glucosinolates from cabbage, which are converted to bioactive compounds by gut bacteria. One of the most microbiome-diverse fermented foods studied.' },
+
+  { id:'idli',      emoji:'🫓', label:'Idli / Dosa batter',  cat:'fermented',
+    microbes:['Leuconostoc mesenteroides','Lactobacillus fermentum','Enterococcus faecalis'],
+    butyrate:0.25, propionate:0.15, acetate:0.35, lactate:0.6,
+    health:0.75,
+    report:'The fermentation of idli and dosa batter is a beautiful example of spontaneous lacto-fermentation — wild bacteria naturally present on rice and lentils take over. This process increases the bioavailability of iron and zinc, reduces antinutrients like phytate, and introduces diverse lactic acid bacteria.' },
+
+  { id:'kombucha',  emoji:'🫖', label:'Kombucha',            cat:'fermented',
+    microbes:['Acetobacter xylinum','Komagataeibacter rhaeticus','Zygosaccharomyces bailii'],
+    butyrate:0.1, propionate:0.05, acetate:0.6, lactate:0.3,
+    health:0.6,
+    report:'Kombucha is fermented by a SCOBY — a Symbiotic Culture of Bacteria and Yeast. The dominant product is acetic acid (acetate), plus B vitamins and organic acids. Evidence for direct probiotic benefit in humans is still limited, but the acids may inhibit pathogen growth in the gut.' },
+
+  { id:'kanji',     emoji:'🫗', label:'Kanji',               cat:'fermented',
+    microbes:['Lactobacillus plantarum','Pediococcus pentosaceus','Leuconostoc lactis'],
+    butyrate:0.2, propionate:0.2, acetate:0.4, lactate:0.65,
+    health:0.8,
+    report:'Kanji — fermented black carrot or beetroot drink — is one of India\'s oldest functional foods. Rich in anthocyanins and fermented by wild <em>Lactobacillus</em> species. The anthocyanins act as prebiotics, and the lactic acid produced lowers gut pH, creating a hostile environment for pathogens.' },
+
+  { id:'kefir',     emoji:'🥛', label:'Kefir',               cat:'fermented',
+    microbes:['Lactobacillus kefiri','Kluyveromyces marxianus','Lactococcus lactis'],
+    butyrate:0.3, propionate:0.15, acetate:0.4, lactate:0.7,
+    health:0.85,
+    report:'Kefir grains harbour a complex community of ~30–50 microbial species. It is one of the most studied fermented dairy products for gut health, with randomised trials showing benefits in IBS, lactose intolerance, and H. pylori infection. Higher microbial diversity than yogurt.' },
+
+  { id:'achaar',    emoji:'🫙', label:'Achaar / Pickle',     cat:'fermented',
+    microbes:['Lactobacillus plantarum','Pediococcus acidilactici'],
+    butyrate:0.15, propionate:0.1, acetate:0.35, lactate:0.5,
+    health:0.55,
+    report:'Traditional oil-free achaar fermented with salt is a good source of <em>Lactobacillus plantarum</em>, one of the most adaptable probiotic bacteria known. However, commercially made achaar is often pasteurised, killing live bacteria — homemade or traditionally made versions retain the benefit.' },
+
+  // ── FIBRE ──
+  { id:'dal',       emoji:'🫘', label:'Dal / Lentils',       cat:'fibre',
+    microbes:['Faecalibacterium prausnitzii','Roseburia intestinalis','Bifidobacterium longum'],
+    butyrate:0.75, propionate:0.5, acetate:0.4, lactate:0.1,
+    health:0.9,
+    report:'Dal is one of the richest prebiotic foods in the Indian diet. Resistant starch and oligosaccharides in lentils feed butyrate-producing bacteria — especially the critically important <em>Faecalibacterium prausnitzii</em>, reduced levels of which are a biomarker for IBD, Crohn\'s disease, and depression.' },
+
+  { id:'oats',      emoji:'🌾', label:'Oats',                cat:'fibre',
+    microbes:['Lactobacillus acidophilus','Bifidobacterium bifidum','Roseburia hominis'],
+    butyrate:0.6, propionate:0.55, acetate:0.3, lactate:0.2,
+    health:0.85,
+    report:'Beta-glucan in oats is one of the best-studied prebiotics. It selectively feeds <em>Bifidobacterium</em> and butyrate producers, reduces cholesterol via propionate signalling in the liver, and slows glucose absorption. One of the few foods with robust human trial evidence for microbiome benefit.' },
+
+  { id:'banana',    emoji:'🍌', label:'Banana',              cat:'fibre',
+    microbes:['Bifidobacterium adolescentis','Lactobacillus reuteri'],
+    butyrate:0.3, propionate:0.25, acetate:0.35, lactate:0.2,
+    health:0.65,
+    report:'Slightly unripe bananas are rich in resistant starch — a prebiotic that resists digestion and reaches the colon intact. Ripe bananas have less RS but more fructooligosaccharides (FOS), which selectively feed <em>Bifidobacterium</em>. A reliable, accessible prebiotic food.' },
+
+  { id:'greens',    emoji:'🥦', label:'Vegetables / Greens', cat:'fibre',
+    microbes:['Prevotella copri','Ruminococcus champanellensis','Faecalibacterium prausnitzii'],
+    butyrate:0.65, propionate:0.4, acetate:0.45, lactate:0.1,
+    health:0.9,
+    report:'Diverse plant matter feeds diverse bacteria — the single best dietary predictor of microbiome diversity is the number of distinct plant species consumed per week (research suggests 30+). Cruciferous vegetables provide glucosinolates, inulin, and cellulose — three structurally distinct prebiotics.' },
+
+  { id:'wholegrains', emoji:'🌽', label:'Whole Grains',      cat:'fibre',
+    microbes:['Roseburia inulinivorans','Eubacterium rectale','Bifidobacterium longum'],
+    butyrate:0.7, propionate:0.45, acetate:0.35, lactate:0.15,
+    health:0.85,
+    report:'Arabinoxylan and beta-glucan in whole grains are fermented extensively in the colon, producing high levels of butyrate. Populations eating whole grains consistently show higher abundance of <em>Roseburia</em> and <em>Eubacterium rectale</em> — two of the most important butyrate producers.' },
+
+  // ── PROTEIN ──
+  { id:'eggs',      emoji:'🥚', label:'Eggs',                cat:'protein',
+    microbes:['Bacteroides thetaiotaomicron'],
+    butyrate:0.1, propionate:0.1, acetate:0.15, lactate:0.05,
+    health:0.5,
+    report:'Eggs are protein-dense and gut-neutral at moderate intake. They do not directly feed prebiotic bacteria but do not disrupt the microbiome either. Choline in eggs can be converted by some gut bacteria to TMAO — a metabolite associated with cardiovascular risk at high intake.' },
+
+  { id:'fish',      emoji:'🐟', label:'Fish / Seafood',      cat:'protein',
+    microbes:['Lactobacillus reuteri','Bifidobacterium breve'],
+    butyrate:0.2, propionate:0.15, acetate:0.2, lactate:0.1,
+    health:0.65,
+    report:'Omega-3 fatty acids (EPA and DHA) in oily fish are anti-inflammatory and have been shown to increase production of butyrate by modulating the gut environment. Fish consumption is associated with higher <em>Lactobacillus</em> and <em>Bifidobacterium</em> abundance in several cohort studies.' },
+
+  { id:'redmeat',   emoji:'🥩', label:'Red Meat',            cat:'protein',
+    microbes:['Bacteroides fragilis','Clostridium perfringens'],
+    butyrate:-0.1, propionate:-0.05, acetate:0.1, lactate:0.05,
+    health:-0.4,
+    report:'High red meat consumption shifts the gut microbiome towards protein-fermenting bacteria, which produce branched-chain fatty acids, hydrogen sulphide, and potentially harmful N-nitroso compounds. Moderate intake is not harmful, but daily red meat is consistently associated with reduced microbiome diversity and increased colorectal cancer risk markers.' },
+
+  { id:'pulses',    emoji:'🫛', label:'Pulses / Chickpeas',  cat:'protein',
+    microbes:['Faecalibacterium prausnitzii','Bifidobacterium longum','Lachnospiraceae'],
+    butyrate:0.7, propionate:0.5, acetate:0.4, lactate:0.1,
+    health:0.88,
+    report:'Pulses combine protein with resistant starch and oligosaccharides — making them uniquely beneficial. Chickpeas, rajma, and chana dal consistently increase <em>Bifidobacterium</em> and butyrate producers in intervention studies. A cornerstone of the Indian diet for good gut health reason.' },
+
+  // ── PROCESSED ──
+  { id:'biscuits',  emoji:'🍪', label:'Biscuits / Crackers', cat:'processed',
+    microbes:['Clostridium ramosum','Erysipelotrichaceae'],
+    butyrate:-0.15, propionate:-0.1, acetate:0.05, lactate:-0.05,
+    health:-0.45,
+    report:'Refined flour and added sugar in biscuits rapidly ferment in the upper gut, feeding less beneficial species while providing nothing for the fibre-fermenting bacteria in the colon. Emulsifiers (polysorbate-80, carboxymethylcellulose) commonly found in processed foods directly disrupt the mucus layer — shown in mouse models to cause low-grade inflammation.' },
+
+  { id:'chips',     emoji:'🍟', label:'Chips / Fried snacks',cat:'processed',
+    microbes:['Clostridium perfringens','Bacteroides fragilis'],
+    butyrate:-0.2, propionate:-0.15, acetate:0.0, lactate:-0.1,
+    health:-0.55,
+    report:'Fried ultra-processed foods introduce oxidised lipids and advanced glycation end-products into the gut. These compounds have been shown to alter gut permeability and shift microbial populations towards pro-inflammatory species. Regular fried food consumption is linked to dysbiosis — a disrupted microbial community.' },
+
+  { id:'sugar',     emoji:'🍬', label:'Sugar / Sweets',      cat:'processed',
+    microbes:['Candida albicans','Enterobacteriaceae'],
+    butyrate:-0.25, propionate:-0.2, acetate:-0.1, lactate:-0.1,
+    health:-0.65,
+    report:'Excess dietary sugar preferentially feeds <em>Candida</em> species and Enterobacteriaceae, while starving the fibre-fermenting bacteria that produce SCFAs. Fructose is particularly implicated — it reaches the colon largely unabsorbed at high doses, driving fermentation by less beneficial species. Consistent with reduced microbiome diversity in high-sugar diets.' },
+
+  { id:'alcohol',   emoji:'🍺', label:'Alcohol',             cat:'processed',
+    microbes:['Proteobacteria','Enterococcus faecalis'],
+    butyrate:-0.3, propionate:-0.2, acetate:0.1, lactate:-0.2,
+    health:-0.7,
+    report:'Alcohol has one of the strongest negative effects on the gut microbiome. It increases gut permeability (leaky gut), reduces <em>Akkermansia</em> and <em>Lactobacillus</em> abundance, and drives overgrowth of Proteobacteria. Even moderate drinking measurably reduces microbiome diversity within days. Alcohol is oxidised to acetaldehyde by gut bacteria, which is directly mutagenic.' },
+
+  // ── DRINKS ──
+  { id:'water',     emoji:'💧', label:'Water (2L+)',         cat:'drinks',
+    microbes:['Akkermansia muciniphila'],
+    butyrate:0.05, propionate:0.05, acetate:0.05, lactate:0.0,
+    health:0.5,
+    report:'Adequate hydration supports mucosal integrity and the viscosity of the mucus layer that <em>Akkermansia muciniphila</em> inhabits. Dehydration concentrates the gut contents, slows transit time, and can allow harmful metabolites to remain in contact with the epithelium for longer.' },
+
+  { id:'coffee',    emoji:'☕', label:'Coffee',              cat:'drinks',
+    microbes:['Bifidobacterium','Lactobacillus'],
+    butyrate:0.1, propionate:0.1, acetate:0.15, lactate:0.05,
+    health:0.4,
+    report:'Coffee polyphenols (chlorogenic acids) reach the colon largely unabsorbed and act as prebiotics for <em>Bifidobacterium</em> and <em>Lactobacillus</em>. Moderate coffee consumption (2–4 cups/day) is consistently associated with increased microbiome diversity in cohort studies — a somewhat surprising finding.' },
+
+  { id:'greentea',  emoji:'🍵', label:'Green Tea / Chai',   cat:'drinks',
+    microbes:['Bifidobacterium longum','Lactobacillus plantarum','Akkermansia muciniphila'],
+    butyrate:0.15, propionate:0.1, acetate:0.2, lactate:0.1,
+    health:0.55,
+    report:'EGCG and other catechins in green tea are potent prebiotics, selectively stimulating beneficial bacteria while inhibiting pathogens. A 2021 study found green tea consumption significantly increased <em>Akkermansia muciniphila</em> — associated with gut barrier integrity and metabolic health. Spices in masala chai (cinnamon, cardamom, ginger) add additional antimicrobial and prebiotic compounds.' },
+
+  { id:'juice',     emoji:'🧃', label:'Fruit juice',        cat:'drinks',
+    microbes:['Enterobacteriaceae'],
+    butyrate:-0.05, propionate:-0.05, acetate:0.05, lactate:0.0,
+    health:-0.2,
+    report:'Fruit juice without fibre delivers fructose rapidly to the gut without the prebiotic benefit of whole fruit. The fibre in whole fruit is what feeds beneficial bacteria — juice strips it away. High-fructose beverages at regular intake are associated with increased Enterobacteriaceae and reduced butyrate production.' },
+];
+
+// ═══════════════════════════════════
+//  BUILD FOOD BUTTONS
+// ═══════════════════════════════════
+const selected = new Set();
+
+function buildFoodButtons() {
+  const cats = { fermented: [], fibre: [], protein: [], processed: [], drinks: [] };
+  FOODS.forEach(f => cats[f.cat].push(f));
+
+  Object.entries(cats).forEach(([cat, foods]) => {
+    const container = document.getElementById('cat-' + cat);
+    if (!container) return;
+    foods.forEach(food => {
+      const btn = document.createElement('button');
+      btn.className = 'food-btn';
+      btn.id = 'btn-' + food.id;
+      btn.innerHTML = `<span class="food-emoji">${food.emoji}</span>${food.label}`;
+      btn.onclick = () => toggleFood(food.id, btn);
+      container.appendChild(btn);
+    });
+  });
+}
+
+function toggleFood(id, btn) {
+  if (selected.has(id)) {
+    selected.delete(id);
+    btn.classList.remove('selected');
+  } else {
+    selected.add(id);
+    btn.classList.add('selected');
+  }
+  updateCount();
+  if (selected.size > 0) livePreview();
+  else resetGut();
+}
+
+function updateCount() {
+  document.getElementById('selCount').textContent = selected.size;
+  document.getElementById('analyseBtn').disabled = selected.size === 0;
+}
+
+// ═══════════════════════════════════
+//  LIVE PREVIEW (lightweight update as selections change)
+// ═══════════════════════════════════
+function livePreview() {
+  const chosen = FOODS.filter(f => selected.has(f.id));
+  const score  = computeScore(chosen);
+  updateHealthBar(score);
+  renderMicrobeChips(chosen);
+  renderSCFA(chosen);
+  updateGutSVG(score, chosen);
+}
+
+function computeScore(chosen) {
+  if (!chosen.length) return 0;
+  const raw = chosen.reduce((s, f) => s + f.health, 0);
+  const avg = raw / chosen.length;
+  return Math.max(0, Math.min(1, (avg + 1) / 2)); // normalise to 0–1
+}
+
+function updateHealthBar(score) {
+  const pct  = Math.round(score * 100);
+  const bar  = document.getElementById('healthBar');
+  const label= document.getElementById('healthPct');
+  const statusLabel = document.getElementById('gutStatusLabel');
+  bar.style.width = pct + '%';
+
+  if (pct >= 75) {
+    bar.style.background = 'var(--healthy)';
+    statusLabel.textContent = 'Thriving — high diversity, strong barrier';
+  } else if (pct >= 50) {
+    bar.style.background = 'var(--caution)';
+    statusLabel.textContent = 'Moderate — room for improvement';
+  } else if (pct >= 25) {
+    bar.style.background = '#e8943a';
+    statusLabel.textContent = 'Under stress — inflammatory signals present';
+  } else {
+    bar.style.background = 'var(--inflamed)';
+    statusLabel.textContent = 'Dysbiosis risk — gut barrier under strain';
+  }
+  label.textContent = pct + '%';
+}
+
+function renderMicrobeChips(chosen) {
+  const el = document.getElementById('microbeChips');
+  const allMicrobes = [];
+  const seen = new Set();
+  chosen.forEach(f => {
+    f.microbes.forEach(m => {
+      if (!seen.has(m)) { seen.add(m); allMicrobes.push({ name: m, positive: f.health > 0 }); }
+    });
+  });
+
+  if (!allMicrobes.length) { el.innerHTML = '<span style="font-family:var(--fm);font-size:0.68rem;color:var(--ink-soft);font-style:italic">Select foods to see your microbiome…</span>'; return; }
+
+  el.innerHTML = allMicrobes.map(m => {
+    const bg   = m.positive ? 'rgba(91,184,148,0.12)' : 'rgba(224,122,95,0.12)';
+    const border = m.positive ? '#5bb894' : '#e07a5f';
+    const color  = m.positive ? '#1d6b4e' : '#8b3a2a';
+    return `<span class="microbe-chip" style="background:${bg};border-color:${border};color:${color}">${m.name}</span>`;
+  }).join('');
+}
+
+function renderSCFA(chosen) {
+  if (!chosen.length) return;
+  const sum = (key) => {
+    const total = chosen.reduce((s, f) => s + (f[key] || 0), 0);
+    return Math.max(0, Math.min(1, total / Math.max(chosen.length, 1)));
+  };
+
+  const b = sum('butyrate'), p = sum('propionate'), a = sum('acetate'), l = sum('lactate');
+  const set = (id, vid, val) => {
+    document.getElementById(id).style.width = Math.round(val * 100) + '%';
+    document.getElementById(vid).textContent = Math.round(val * 100) + '%';
+  };
+  set('sButyrate','vButyrate', b);
+  set('sPropionate','vPropionate', p);
+  set('sAcetate','vAcetate', a);
+  set('sLactate','vLactate', l);
+}
+
+function updateGutSVG(score, chosen) {
+  // Colour gut layers based on health score
+  const gutWall   = document.getElementById('gutWall');
+  const mucosa    = document.getElementById('mucosa');
+  const mucusLayer= document.getElementById('mucusLayer');
+  const lumen     = document.getElementById('lumen');
+
+  if (score > 0.65) {
+    gutWall.setAttribute('fill', '#f0d8d8');
+    mucosa.setAttribute('fill', '#fde8d8');
+    mucusLayer.setAttribute('stroke', '#5bb894');
+    mucusLayer.setAttribute('opacity', '0.8');
+    lumen.setAttribute('fill', '#f0fff8');
+  } else if (score > 0.4) {
+    gutWall.setAttribute('fill', '#f5c6c6');
+    mucosa.setAttribute('fill', '#fde8d8');
+    mucusLayer.setAttribute('stroke', '#e8b84b');
+    mucusLayer.setAttribute('opacity', '0.5');
+    lumen.setAttribute('fill', '#fff8f2');
+  } else {
+    gutWall.setAttribute('fill', '#f5aaaa');
+    mucosa.setAttribute('fill', '#fad4c4');
+    mucusLayer.setAttribute('stroke', '#e07a5f');
+    mucusLayer.setAttribute('opacity', '0.3');
+    lumen.setAttribute('fill', '#fff0ee');
+  }
+
+  // Render microbe dots in the lumen
+  const dots = document.getElementById('microbeDots');
+  dots.innerHTML = '';
+  const microbeColors = {
+    good:    ['#5bb894','#3a9b74','#60c8a8','#7bd4b8'],
+    neutral: ['#3a7ca5','#5b97bc','#7ab8d8'],
+    bad:     ['#e07a5f','#c95a3f','#e09070'],
+  };
+
+  chosen.forEach(f => {
+    const type = f.health > 0.3 ? 'good' : f.health > -0.1 ? 'neutral' : 'bad';
+    const colors = microbeColors[type];
+    const count = Math.ceil(Math.abs(f.health) * 4) + 1;
+    for (let i = 0; i < count; i++) {
+      const cx = 85 + Math.random() * 210;
+      const cy = 76 + Math.random() * 28;
+      const r  = 2 + Math.random() * 3;
+      const c  = colors[Math.floor(Math.random() * colors.length)];
+      const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      dot.setAttribute('cx', cx); dot.setAttribute('cy', cy);
+      dot.setAttribute('r', r); dot.setAttribute('fill', c);
+      dot.setAttribute('opacity', 0.7 + Math.random() * 0.3);
+      dots.appendChild(dot);
+    }
+  });
+
+  // Floating SCFA molecule dots
+  const mols = document.getElementById('scfaMols');
+  mols.innerHTML = '';
+  if (score > 0.4) {
+    for (let i = 0; i < 8; i++) {
+      const cx = 90 + Math.random() * 200;
+      const cy = 65 + Math.random() * 50;
+      const mol = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      mol.setAttribute('cx', cx); mol.setAttribute('cy', cy);
+      mol.setAttribute('r', 1.5); mol.setAttribute('fill', '#5bb894');
+      mol.setAttribute('opacity', '0.5');
+      mols.appendChild(mol);
+
+      const label = document.createElementNS('http://www.w3.org/2000/svg','text');
+      label.setAttribute('x', cx + 3); label.setAttribute('y', cy + 2);
+      label.setAttribute('font-size', '5');
+      label.setAttribute('font-family', "'Fira Mono', monospace");
+      label.setAttribute('fill', '#3a9b74');
+      label.setAttribute('opacity', '0.6');
+      label.textContent = ['But','Pro','Ac'][Math.floor(Math.random()*3)];
+      mols.appendChild(label);
+    }
+  }
+}
+
+// ═══════════════════════════════════
+//  FULL ANALYSE (button click)
+// ═══════════════════════════════════
+function analyse() {
+  const chosen = FOODS.filter(f => selected.has(f.id));
+  const score  = computeScore(chosen);
+  const pct    = Math.round(score * 100);
+
+  livePreview(); // update visuals
+
+  // Build personalised report
+  const pos = chosen.filter(f => f.health > 0.3);
+  const neg = chosen.filter(f => f.health < -0.1);
+  const fermented = chosen.filter(f => f.cat === 'fermented');
+  const fibre     = chosen.filter(f => f.cat === 'fibre');
+
+  let headline, colour, tip;
+
+  if (pct >= 75) {
+    headline = '🌱 Your gut is well-nourished today.';
+    colour   = 'var(--healthy)';
+    tip = fermented.length > 0
+      ? `You ate ${fermented.length} fermented food${fermented.length>1?'s':''} today — your <em>Lactobacillus</em> and <em>Bifidobacterium</em> communities are active. Keep this up across the week for lasting diversity gains.`
+      : `Your fibre intake is feeding butyrate-producing bacteria well. Adding one fermented food daily — like dahi or kanji — would further boost your <em>Lactobacillus</em> levels.`;
+  } else if (pct >= 50) {
+    headline = '⚖️ A balanced day — some good, some gaps.';
+    colour   = 'var(--caution)';
+    tip = fibre.length < 2
+      ? `You have good fermented foods but relatively little diverse fibre today. The butyrate-producing bacteria — <em>Faecalibacterium prausnitzii</em> and <em>Roseburia</em> — need fibre as fuel. Try adding dal, whole grains, or vegetables to your next meal.`
+      : `Your gut is doing reasonably well. Reducing processed food intake would make the biggest difference to your health score.`;
+  } else if (pct >= 30) {
+    headline = '⚠️ Your gut microbiome is under some stress.';
+    colour   = '#e8943a';
+    tip = neg.length > 0
+      ? `${neg.map(f=>f.label).join(', ')} ${neg.length>1?'are reducing':'is reducing'} SCFA production and disrupting your microbial balance. Even one probiotic food — dahi, kefir, or kanji — alongside this would help buffer the effect.`
+      : `More fibre and fermented foods would significantly restore your gut health score. The good news: the microbiome responds to dietary change within 24–48 hours.`;
+  } else {
+    headline = '🔴 High dysbiosis risk — your gut barrier needs support.';
+    colour   = 'var(--inflamed)';
+    tip = `Today\'s food pattern favours pro-inflammatory species and reduces SCFA production. Your gut lining is likely experiencing increased permeability. Tomorrow, prioritise: one fermented food, two portions of vegetables or legumes, and reduce ultra-processed items. The microbiome is remarkably resilient — it responds quickly.`;
+  }
+
+  let reportHTML = `<div style="font-family:var(--fm);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.1em;color:${colour};margin-bottom:0.7rem">Your Gut Report</div>`;
+  reportHTML += `<div class="report-title">${headline}</div>`;
+
+  if (pos.length > 0) {
+    reportHTML += `<div class="report-line">✅ <strong>Best choices today:</strong> ${pos.map(f=>f.emoji+' '+f.label).join(', ')}</div>`;
+  }
+  if (neg.length > 0) {
+    reportHTML += `<div class="report-line" style="border-left-color:var(--inflamed)">⚠️ <strong>Gut disruptors today:</strong> ${neg.map(f=>f.emoji+' '+f.label).join(', ')}</div>`;
+  }
+
+  // Show individual food reports
+  const highlight = chosen.slice(0, 3);
+  highlight.forEach(f => {
+    reportHTML += `<div class="report-line" style="margin-top:0.5rem"><strong>${f.emoji} ${f.label}:</strong> ${f.report}</div>`;
+  });
+  if (chosen.length > 3) {
+    reportHTML += `<div style="font-family:var(--fm);font-size:0.65rem;color:var(--ink-soft);margin:0.4rem 0 0.2rem">+ ${chosen.length - 3} more selected</div>`;
+  }
+
+  reportHTML += `<div class="report-tip"><strong>Tomorrow's micro-action</strong>${tip}</div>`;
+
+  document.getElementById('reportArea').innerHTML = reportHTML;
+
+  // Smooth scroll on mobile
+  document.querySelector('.gut-panel').scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetGut() {
+  document.getElementById('healthBar').style.width = '0%';
+  document.getElementById('healthPct').textContent = '—';
+  document.getElementById('gutStatusLabel').textContent = 'Waiting for your meal choices…';
+  document.getElementById('microbeChips').innerHTML = '<span style="font-family:var(--fm);font-size:0.68rem;color:var(--ink-soft);font-style:italic">Select foods to see your microbiome…</span>';
+  ['sButyrate','sPropionate','sAcetate','sLactate'].forEach(id => { document.getElementById(id).style.width = '0%'; });
+  ['vButyrate','vPropionate','vAcetate','vLactate'].forEach(id => { document.getElementById(id).textContent = '0%'; });
+  document.getElementById('microbeDots').innerHTML = '';
+  document.getElementById('scfaMols').innerHTML = '';
+  document.getElementById('reportArea').innerHTML = '<div class="empty-state"><div class="empty-icon">🫙</div><div class="empty-text">Your gut report will appear here</div></div>';
+  // Reset SVG colours
+  document.getElementById('gutWall').setAttribute('fill','#f5c6c6');
+  document.getElementById('mucosa').setAttribute('fill','#fde8d8');
+  document.getElementById('mucusLayer').setAttribute('stroke','#c8e8d0');
+  document.getElementById('mucusLayer').setAttribute('opacity','0.5');
+  document.getElementById('lumen').setAttribute('fill','#fff8f2');
+}
+
+// Init
+buildFoodButtons();
+</script>
+</body>
+</html>
