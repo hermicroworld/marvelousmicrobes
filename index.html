@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Saumya's Marvelous Microbes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400;500&family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ocean:        #3a7ca5;
+      --ocean-deep:   #1d4e6e;
+      --ocean-mid:    #5b97bc;
+      --ocean-light:  #a8cfe0;
+      --ocean-pale:   #deeef7;
+      --ocean-wash:   #eef6fb;
+      --white:        #fafcfe;
+      --warm-white:   #f4f8fc;
+      --sand:         #d8e8f0;
+      --ink:          #1a2c38;
+      --ink-mid:      #3a5568;
+      --ink-soft:     #6a8599;
+      --gold:         #c49a3c;
+      --gold-pale:    #faf3e0;
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body:    'Jost', sans-serif;
+      --font-mono:    'Fira Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--white); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.7; overflow-x: hidden; }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; justify-content: space-between; align-items: center; padding: 1.1rem 3rem; background: rgba(250,252,254,0.88); backdrop-filter: blur(12px); border-bottom: 1px solid var(--sand); }
+    .nav-logo { font-family: var(--font-display); font-size: 1.15rem; color: var(--ink); text-decoration: none; }
+    .nav-logo span { color: var(--ocean); font-style: italic; }
+    .nav-links { display: flex; gap: 2.4rem; list-style: none; }
+    .nav-links a { font-family: var(--font-body); font-size: 0.8rem; font-weight: 500; color: var(--ink-soft); text-decoration: none; letter-spacing: 0.09em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--ocean); }
+
+    /* ── HERO ── */
+    .hero { min-height: 100vh; display: grid; grid-template-columns: 1.1fr 0.9fr; align-items: center; padding: 8rem 3rem 4rem; gap: 3rem; position: relative; z-index: 1; }
+    .hero::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 80px; background: var(--warm-white); clip-path: ellipse(55% 100% at 50% 100%); z-index: 0; }
+    .hero-text { position: relative; z-index: 1; }
+    .hero-eyebrow { font-family: var(--font-mono); font-size: 0.72rem; color: var(--ocean); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.7rem; opacity: 0; animation: fadeUp 0.8s 0.1s ease forwards; }
+    .hero-eyebrow::before { content: ''; width: 30px; height: 1px; background: var(--ocean-light); display: inline-block; }
+    h1.hero-name { font-family: var(--font-display); font-size: clamp(3.2rem, 5.5vw, 5rem); line-height: 1.05; color: var(--ink); margin-bottom: 0.6rem; opacity: 0; animation: fadeUp 0.8s 0.25s ease forwards; }
+    h1.hero-name em { font-style: italic; color: var(--ocean); }
+    .hero-site-name { font-family: var(--font-display); font-style: italic; font-size: 1.2rem; color: var(--ink-soft); margin-bottom: 1.8rem; opacity: 0; animation: fadeUp 0.8s 0.38s ease forwards; }
+    .hero-bio { font-size: 0.95rem; color: var(--ink-mid); max-width: 500px; margin-bottom: 2rem; line-height: 1.85; opacity: 0; animation: fadeUp 0.8s 0.5s ease forwards; }
+    .hero-pills { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 2.2rem; opacity: 0; animation: fadeUp 0.8s 0.62s ease forwards; }
+    .pill { font-family: var(--font-mono); font-size: 0.7rem; padding: 0.28rem 0.82rem; border-radius: 999px; border: 1px solid var(--ocean-light); color: var(--ocean-deep); background: var(--ocean-pale); letter-spacing: 0.03em; }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s 0.74s ease forwards; }
+
+    /* ── BUTTONS ── */
+    .btn { font-family: var(--font-body); font-size: 0.83rem; font-weight: 500; padding: 0.7rem 1.6rem; border-radius: 4px; text-decoration: none; letter-spacing: 0.04em; transition: all 0.22s; cursor: pointer; border: none; display: inline-block; }
+    .btn-primary { background: var(--ocean); color: #fff; }
+    .btn-primary:hover { background: var(--ocean-deep); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(58,124,165,0.28); }
+    .btn-outline { background: transparent; border: 1.5px solid var(--ocean-light); color: var(--ocean-deep); }
+    .btn-outline:hover { border-color: var(--ocean); color: var(--ocean); }
+
+    /* ── INTERACTIVE PETRI DISH ── */
+    .hero-visual { position: relative; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 1.2rem; height: 520px; opacity: 0; animation: fadeIn 1.2s 0.4s ease forwards; }
+    @keyframes fadeIn { to { opacity: 1; } }
+
+    .petri-wrap { position: relative; width: 360px; height: 360px; animation: float 7s ease-in-out infinite; cursor: crosshair; }
+    @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-14px) rotate(1deg); } }
+
+    .petri-outer {
+      width: 100%; height: 100%; border-radius: 50%;
+      background: radial-gradient(ellipse at 32% 32%, #e8f5ff 0%, #b8ddf5 28%, #7ab8d8 56%, #3a7ca5 85%, #1d4e6e 100%);
+      box-shadow: inset -10px -10px 25px rgba(0,0,0,0.1), inset 5px 5px 15px rgba(255,255,255,0.5), 0 24px 70px rgba(58,124,165,0.3), 0 6px 24px rgba(0,0,0,0.08);
+      position: relative; overflow: visible;
+    }
+    .petri-inner-clip { position: absolute; inset: 0; border-radius: 50%; overflow: hidden; }
+    .petri-outer::before { content: ''; position: absolute; inset: 12%; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.18); box-shadow: 0 0 0 20px rgba(255,255,255,0.06), 0 0 0 40px rgba(255,255,255,0.04), 0 0 0 60px rgba(255,255,255,0.025); z-index: 1; pointer-events: none; }
+    .petri-outer::after { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 4px solid rgba(255,255,255,0.3); z-index: 2; pointer-events: none; }
+
+    /* Colonies — interactive */
+    .colony {
+      position: absolute; border-radius: 50%;
+      opacity: 0; animation: growColony 0.9s ease forwards;
+      cursor: pointer; transition: transform 0.2s, filter 0.2s;
+      z-index: 3;
+    }
+    .colony:hover { transform: scale(1.18) !important; filter: brightness(1.15) drop-shadow(0 0 8px rgba(255,255,255,0.5)); }
+    @keyframes growColony { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 0.85; } }
+    /* pulse animation on hover via JS class */
+    .colony.pulse { animation: pulse 1s ease-in-out 3; }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+
+    /* Colony colours & positions */
+    .c1 { width: 68px; height: 68px; top: 18%; left: 20%; background: radial-gradient(circle, #fff4c2, #e8c46a); animation-delay: 0.5s; }
+    .c2 { width: 42px; height: 42px; top: 48%; left: 56%; background: radial-gradient(circle, #d0f0e8, #5bbda0); animation-delay: 0.8s; }
+    .c3 { width: 28px; height: 28px; top: 66%; left: 28%; background: radial-gradient(circle, #ffd8d8, #e89090); animation-delay: 1.1s; }
+    .c4 { width: 52px; height: 52px; top: 14%; left: 60%; background: radial-gradient(circle, #ddf0ff, #88c4e8); animation-delay: 1.3s; }
+    .c5 { width: 20px; height: 20px; top: 74%; left: 65%; background: radial-gradient(circle, #fff4c2, #d4a840); animation-delay: 1.6s; }
+    .c6 { width: 16px; height: 16px; top: 34%; left: 75%; background: radial-gradient(circle, #e8f8ff, #5bbde0); animation-delay: 1.9s; }
+    .c7 { width: 24px; height: 24px; top: 55%; left: 18%; background: radial-gradient(circle, #f0d8ff, #b080d8); animation-delay: 2.1s; }
+    .c8 { width: 14px; height: 14px; top: 28%; left: 44%; background: radial-gradient(circle, #d0f0e8, #3ab090); animation-delay: 2.3s; }
+
+    /* Colony tooltip */
+    .colony-tooltip {
+      position: absolute;
+      background: rgba(26,44,56,0.93);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      padding: 0.5rem 0.8rem;
+      border-radius: 6px;
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0;
+      transform: translateY(-6px);
+      transition: opacity 0.18s, transform 0.18s;
+      line-height: 1.5;
+      max-width: 200px;
+      white-space: normal;
+      text-align: center;
+    }
+    .colony-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%; left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: rgba(26,44,56,0.93);
+    }
+    .colony-tooltip.show { opacity: 1; transform: translateY(-10px); }
+    .colony-tooltip .tip-name { font-weight: 500; font-style: italic; color: #a8cfe0; display: block; margin-bottom: 0.15rem; }
+    .colony-tooltip .tip-fact { color: #c8dde8; font-size: 0.63rem; }
+
+    /* Replate button */
+    .replate-btn {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.45rem 1.1rem;
+      background: transparent;
+      border: 1px solid var(--ocean-light);
+      color: var(--ink-soft);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .replate-btn:hover { border-color: var(--ocean); color: var(--ocean); }
+    .replate-btn svg { transition: transform 0.4s; }
+    .replate-btn:hover svg { transform: rotate(180deg); }
+    .replate-hint { font-family: var(--font-mono); font-size: 0.6rem; color: var(--ink-soft); opacity: 0.6; letter-spacing: 0.08em; }
+
+    /* Float cards */
+    .float-card { position: absolute; background: rgba(250,252,254,0.93); backdrop-filter: blur(8px); border: 1px solid var(--sand); border-radius: 8px; padding: 0.55rem 0.95rem; font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-mid); box-shadow: 0 4px 18px rgba(58,124,165,0.1); white-space: nowrap; opacity: 0; animation: fadeSlideIn 0.7s ease forwards; }
+    @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .fc-1 { top: 4%; right: -8%; animation-delay: 2.0s; }
+    .fc-2 { bottom: 18%; left: -10%; animation-delay: 2.3s; }
+    .fc-3 { top: 44%; right: -16%; animation-delay: 2.6s; }
+    .fc-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+
+    .scroll-hint { position: absolute; bottom: 2.2rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.35rem; color: var(--ink-soft); font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; animation: bob 2.2s ease-in-out infinite; z-index: 1; }
+    @keyframes bob { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
+
+    /* ── SHARED SECTION ── */
+    section { padding: 6rem 3rem; position: relative; z-index: 1; }
+    .section-label { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ocean); margin-bottom: 0.7rem; display: flex; align-items: center; gap: 0.6rem; }
+    .section-label::after { content: ''; display: inline-block; width: 36px; height: 1px; background: var(--ocean-light); }
+    .section-title { font-family: var(--font-display); font-size: clamp(1.9rem, 3vw, 2.7rem); color: var(--ink); margin-bottom: 1rem; line-height: 1.2; }
+
+    /* ── ABOUT / STORY ── */
+    .about-story { background: var(--warm-white); border-top: 1px solid var(--sand); border-bottom: 1px solid var(--sand); }
+    .about-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem; align-items: start; }
+
+    /* Profile photo */
+    .profile-photo-wrap {
+      margin-bottom: 1.8rem;
+      position: relative;
+      width: 200px;
+    }
+    .profile-photo-wrap::before {
+      content: '';
+      position: absolute;
+      top: 10px; left: 10px;
+      width: 100%; height: 100%;
+      border-radius: 12px;
+      background: var(--ocean-pale);
+      border: 1px solid var(--ocean-light);
+      z-index: 0;
+    }
+    .profile-photo {
+      position: relative;
+      width: 200px;
+      height: 240px;
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 12px;
+      z-index: 1;
+      display: block;
+      border: 2px solid var(--sand);
+      box-shadow: 0 8px 28px rgba(58,124,165,0.15);
+    }
+    .profile-caption {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-soft);
+      margin-top: 0.7rem;
+      padding-left: 0.2rem;
+    }
+
+    .quote-block { background: var(--ocean-pale); border-left: 3px solid var(--ocean); border-radius: 0 6px 6px 0; padding: 1.4rem 1.6rem; margin-bottom: 2rem; font-family: var(--font-display); font-style: italic; font-size: 1.05rem; color: var(--ocean-deep); line-height: 1.65; }
+    .about-stat-mini { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+    .stat-mini-card { background: var(--white); border: 1px solid var(--sand); border-radius: 6px; padding: 1rem 1.1rem; }
+    .stat-mini-num { font-family: var(--font-display); font-size: 1.9rem; color: var(--ocean); line-height: 1; margin-bottom: 0.2rem; }
+    .stat-mini-label { font-family: var(--font-mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--ink-soft); }
+    .about-links { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+    .story-para { font-size: 0.95rem; color: var(--ink-mid); line-height: 1.9; margin-bottom: 1.4rem; }
+    .story-para em { color: var(--ocean-deep); font-style: italic; }
+    .story-para strong { color: var(--ink); font-weight: 500; }
+    .story-sign { font-family: var(--font-display); font-style: italic; font-size: 1.1rem; color: var(--ocean-deep); margin-top: 2rem; line-height: 1.7; }
+
+    /* ── CV ── */
+    .cv-section { background: var(--white); }
+    .cv-inner { max-width: 1100px; margin: 0 auto; }
+    .cv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 3rem; }
+    .timeline { position: relative; padding-left: 1.6rem; }
+    .timeline::before { content: ''; position: absolute; left: 0; top: 6px; bottom: 0; width: 1.5px; background: linear-gradient(to bottom, var(--ocean-light), transparent); }
+    .tl-item { position: relative; margin-bottom: 2.2rem; }
+    .tl-item::before { content: ''; position: absolute; left: -1.68rem; top: 6px; width: 9px; height: 9px; border-radius: 50%; background: var(--ocean); border: 2px solid var(--white); box-shadow: 0 0 0 2px var(--ocean-light); }
+    .tl-date { font-family: var(--font-mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--ocean); margin-bottom: 0.25rem; }
+    .tl-role { font-family: var(--font-display); font-size: 1.05rem; color: var(--ink); margin-bottom: 0.1rem; }
+    .tl-place { font-size: 0.8rem; color: var(--ink-soft); margin-bottom: 0.4rem; }
+    .tl-desc { font-size: 0.82rem; color: var(--ink-mid); line-height: 1.7; }
+    .skill-group { margin-bottom: 1.8rem; }
+    .skill-group-title { font-family: var(--font-mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ocean-mid); margin-bottom: 0.6rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--sand); }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .skill-tag { font-size: 0.78rem; padding: 0.23rem 0.72rem; background: var(--ocean-wash); border: 1px solid var(--ocean-light); border-radius: 4px; color: var(--ink-mid); }
+    .awards { margin-top: 3rem; }
+    .award-list { margin-top: 1.2rem; display: flex; flex-direction: column; gap: 0.9rem; }
+    .award-item { display: flex; gap: 1rem; align-items: flex-start; background: var(--gold-pale); border: 1px solid #e8d8a0; border-radius: 6px; padding: 0.9rem 1.1rem; }
+    .award-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 0.1rem; }
+    .award-title { font-size: 0.88rem; font-weight: 500; color: var(--ink); margin-bottom: 0.15rem; }
+    .award-sub { font-family: var(--font-mono); font-size: 0.65rem; color: var(--ink-soft); letter-spacing: 0.05em; }
+
+    /* ── PROJECTS ── */
+    .projects-section { background: var(--ocean-wash); border-top: 1px solid var(--sand); border-bottom: 1px solid var(--sand); }
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.4rem; margin-top: 3rem; }
+    .project-card { background: var(--white); border: 1px solid var(--sand); border-radius: 8px; padding: 1.7rem; position: relative; overflow: hidden; transition: transform 0.22s, box-shadow 0.22s; cursor: pointer; text-decoration: none; color: inherit; display: block; }
+    .project-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--ocean), var(--ocean-light)); opacity: 0; transition: opacity 0.22s; }
+    .project-card:hover { transform: translateY(-4px); box-shadow: 0 14px 36px rgba(58,124,165,0.14); }
+    .project-card:hover::after { opacity: 1; }
+    .project-card.coming-soon { opacity: 0.78; }
+    .project-card.coming-soon:hover { transform: translateY(-2px); }
+    .project-icon { font-size: 1.7rem; margin-bottom: 0.9rem; display: block; }
+    .project-tag { font-family: var(--font-mono); font-size: 0.63rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ocean); margin-bottom: 0.45rem; }
+    .project-title { font-family: var(--font-display); font-size: 1.15rem; color: var(--ink); margin-bottom: 0.55rem; }
+    .project-desc { font-size: 0.83rem; color: var(--ink-soft); line-height: 1.7; }
+    .project-status { position: absolute; top: 1.1rem; right: 1.1rem; font-family: var(--font-mono); font-size: 0.6rem; padding: 0.18rem 0.55rem; border-radius: 999px; letter-spacing: 0.05em; }
+    .status-wip   { background: var(--gold-pale);  color: var(--gold);  border: 1px solid #e0c888; }
+    .status-plan  { background: var(--ocean-pale); color: var(--ocean); border: 1px solid var(--ocean-light); }
+    .status-soon  { background: #f0f0f0; color: #999; border: 1px solid #ddd; }
+    .status-live  { background: #e4f5ec; color: #3a8c5c; border: 1px solid #9ad4b4; }
+
+    /* ── ARTICLES ── */
+    .articles-section { background: var(--white); border-top: 1px solid var(--sand); }
+    .articles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.4rem; margin-top: 3rem; }
+    .article-card { background: var(--warm-white); border: 1px solid var(--sand); border-radius: 8px; padding: 1.7rem; text-decoration: none; color: inherit; display: block; transition: transform 0.22s, box-shadow 0.22s; position: relative; overflow: hidden; }
+    .article-card::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--ocean-light), var(--ocean)); opacity: 0; transition: opacity 0.22s; }
+    .article-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(58,124,165,0.12); }
+    .article-card:hover::before { opacity: 1; }
+    .article-card.coming-soon { opacity: 0.7; cursor: default; }
+    .article-card.coming-soon:hover { transform: none; box-shadow: none; }
+    .article-cat { font-family: var(--font-mono); font-size: 0.63rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ocean); margin-bottom: 0.5rem; }
+    .article-title { font-family: var(--font-display); font-size: 1.15rem; color: var(--ink); margin-bottom: 0.5rem; line-height: 1.3; }
+    .article-blurb { font-size: 0.83rem; color: var(--ink-soft); line-height: 1.7; }
+    .article-badge { display: inline-block; margin-top: 0.8rem; font-family: var(--font-mono); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.2rem 0.6rem; border-radius: 999px; background: #f0f0f0; color: #999; border: 1px solid #e0e0e0; }
+    .article-badge.ready { background: var(--ocean-pale); color: var(--ocean); border-color: var(--ocean-light); }
+
+    /* ── PAPERS ── */
+    .papers-section { background: var(--warm-white); border-top: 1px solid var(--sand); }
+    .papers-list { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1.1rem; }
+    .paper-card { background: var(--white); border: 1px solid var(--sand); border-radius: 6px; padding: 1.3rem 1.7rem; display: grid; grid-template-columns: auto 1fr auto; gap: 1.2rem; align-items: start; transition: border-color 0.2s, box-shadow 0.2s; }
+    .paper-card:hover { border-color: var(--ocean-light); box-shadow: 0 4px 16px rgba(58,124,165,0.08); }
+    .paper-num { font-family: var(--font-display); font-style: italic; font-size: 1.5rem; color: var(--sand); line-height: 1; padding-top: 0.1rem; }
+    .paper-topic { font-family: var(--font-mono); font-size: 0.63rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ocean); margin-bottom: 0.28rem; }
+    .paper-title { font-family: var(--font-display); font-size: 1rem; color: var(--ink); margin-bottom: 0.35rem; }
+    .paper-summary { font-size: 0.82rem; color: var(--ink-soft); line-height: 1.65; }
+    .paper-arrow { font-size: 1.05rem; color: var(--sand); transition: color 0.2s, transform 0.2s; padding-top: 0.2rem; }
+    .paper-card:hover .paper-arrow { color: var(--ocean); transform: translateX(4px); }
+
+    /* ── FOOTER ── */
+    footer { padding: 2.8rem 3rem; border-top: 1px solid var(--sand); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; background: var(--white); }
+    .footer-name { font-family: var(--font-display); font-size: 1rem; color: var(--ink-mid); }
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+    .footer-links a { font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-soft); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--ocean); }
+    .footer-copy { font-family: var(--font-mono); font-size: 0.65rem; color: var(--sand); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 880px) {
+      nav { padding: 1rem 1.4rem; }
+      .nav-links { gap: 1.3rem; }
+      .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; text-align: center; }
+      .hero-eyebrow, .hero-pills { justify-content: center; }
+      .hero-bio { margin: 0 auto 2rem; }
+      .hero-cta { justify-content: center; }
+      .hero-visual { height: auto; padding-bottom: 1rem; }
+      .petri-wrap { width: 260px; height: 260px; }
+      .float-card { display: none; }
+      .about-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .cv-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      section { padding: 4rem 1.5rem; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">Saumya's <span>Marvelous Microbes</span></a>
+  <ul class="nav-links">
+    <li><a href="#story">Story</a></li>
+    <li><a href="#cv">CV</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#articles">Articles</a></li>
+    <li><a href="#papers">Papers</a></li>
+    <li><a href="mailto:saumyavns2@gmail.com">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-text">
+    <div class="hero-eyebrow">Reader · Researcher · Razztwizzler</div>
+    <h1 class="hero-name">Saumya<br/><em>Samridhi</em></h1>
+    <p class="hero-site-name">Turning science into stories.</p>
+    <p class="hero-bio">
+      Postgraduate in Microbiology with an inquisitivness to raise questions 
+      and a passion to seek answers.  
+    </p>
+    <div class="hero-pills">
+      <span class="pill">Bacteriology</span>
+      <span class="pill">Molecular Biology</span>
+      <span class="pill">Biochemistry</span>
+      <span class="pill">Cell Biology</span>
+    </div>
+    <div class="hero-cta">
+      <a href="#story" class="btn btn-primary">Read My Story</a>
+      <a href="#projects" class="btn btn-outline">Explore Projects</a>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE PETRI DISH -->
+  <div class="hero-visual">
+    <div class="petri-wrap" id="petriWrap">
+      <div class="petri-outer" id="petriPlate">
+        <div class="petri-inner-clip" id="colonyContainer">
+          <!-- Colonies are injected by JS so we can "replate" -->
+        </div>
+      </div>
+      <!-- Tooltip -->
+      <div class="colony-tooltip" id="colonyTooltip">
+        <span class="tip-name" id="tipName"></span>
+        <span class="tip-fact" id="tipFact"></span>
+      </div>
+    </div>
+
+    <!-- Replate button -->
+    <button class="replate-btn" id="replateBtn" onclick="replate()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+      Replate
+    </button>
+    <span class="replate-hint">Hover colonies for fun facts</span>
+
+    <div class="float-card fc-1"><span class="fc-dot" style="background:#e8c46a"></span><em>Staphylococcus aureus</em></div>
+    <div class="float-card fc-2"><span class="fc-dot" style="background:#5bbda0"></span><em>Cryptococcus neoformans</em></div>
+
+  </div>
+
+  <div class="scroll-hint">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    scroll
+  </div>
+</section>
+
+
+<!-- STORY / ABOUT -->
+<section class="about-story" id="story">
+  <div class="about-inner">
+
+    <div class="about-aside">
+      <!-- PHOTO — place profile.jpg in the same folder as index.html -->
+      <div class="profile-photo-wrap">
+        <img src="profile.jpg" alt="Saumya Samridhi" class="profile-photo" />
+      </div>
+      <p class="profile-caption">Saumya · Delhi, India</p>
+
+      <div class="quote-block" style="margin-top:1.6rem">
+        "Maybe someday some 11-year-old girl would believe she can do science because Saumya could."
+      </div>
+      <div class="about-stat-mini">
+        <div class="stat-mini-card"><div class="stat-mini-num">9.11</div><div class="stat-mini-label">MSc CGPA · BHU</div></div>
+        <div class="stat-mini-card"><div class="stat-mini-num">90+</div><div class="stat-mini-label">GATE Percentile</div></div>
+        <div class="stat-mini-card"><div class="stat-mini-num">UGC</div><div class="stat-mini-label">National Scholar</div></div>
+        <div class="stat-mini-card"><div class="stat-mini-num">⚡</div><div class="stat-mini-label">Potterhead & Reader</div></div>
+      </div>
+      <div class="about-links">
+        <a href="https://www.linkedin.com/in/saumya-samridhi" target="_blank" class="btn btn-outline" style="font-size:0.78rem">LinkedIn ↗</a>
+        <a href="https://www.youtube.com/@hermicroworld" target="_blank" class="btn btn-outline" style="font-size:0.78rem">hermicroworld ▶</a>
+        <a href="Saumya_Samridhi_CV_.pdf" target="_blank" class="btn btn-primary" style="font-size:0.78rem">Download CV ↓</a>
+      </div>
+    </div>
+
+ <div class="about-narrative">
+  <div class="section-label">My Story</div>
+  <h2 class="section-title">Wandering miles</h2>
+
+  <p class="story-para">
+    Inspired by Roald Dahl’s notable novel <em>George’s Marvelous Medicine</em>, this webpage and its name reflects a blend of my love for research and reading. In 8th standard I received an assignment to present over Microbes, I chose Fungi. Powered by curiosity and fueled by my computer with internet access I dived quite deep and turned in enough information to publish a book - okay maybe that’s an exaggeration! But indeed, I explored high school biology on this quest, laying the foundation of my academic journey.
+  </p>
+
+  <p class="story-para">
+    My nerd self found solace in books during school, so much so that I am sure my Amortentia would smell of an Old Library <strong>(Potterheads assemble ⚡)</strong>. Fiction, classics, encyclopedias, atlases, and biographies, I had them all covered. That is when I must have stumbled first upon <em>Wings of Fire</em>, Dr. A. P. J. Abdul Kalam’s autobiography, positioning him as my idol for life.
+  </p>
+
+  <p class="story-para">
+    As a single child I knew how to keep myself busy without being the MMA moves test subject for a sibling. This meant rolling on my skates, learning, dancing, or thinking in my spare time. I always had the wildest ideas to turn science into something productive. When I was introduced to the concept of energy I found it silly not to use all that walking on roads to produce power. My joy knew no bounds when I later found out about the piezoelectric tiles in Japan that function on this concept.
+  </p>
+
+  <p class="story-para">
+    Eventually my passion started to take form as a BSc Honors in Microbiology from University of Delhi. For about 3 semesters, COVID-19 played its part and my classes remained confined on a screen. Yet when I qualified for two summer internships simultaneously, I felt relieved for the opportunity of performing laboratory work. At <strong>Dr. B. R. Ambedkar Centre for Biomedical Research</strong> I first entered a professional scientific setting, and absolutely loved it. From brushing up on my molecular biology techniques to understanding the intricacies of mammalian cell culture, the Oncology lab proved extremely kind to me. The fellow interns, lecture seminars from esteemed scientists, mentorship from Prof. Daman Saluja and insightful discussions with PhD seniors validated my inquisitiveness and cemented my zeal to pursue research.
+  </p>
+
+  <p class="story-para">
+    Just as I concluded my internship here, I moved to Bangalore for two months of adventure. As a <strong>JNCASR Summer Research Fellow</strong> I was provided accommodation in India’s best research institute, a legacy of Mr. Jamsetji Tata, the Indian Institute of Science. My first opinion of the grand campus was astonishment. Sunlight filtering through the tall majestic trees spread across 400 acres was intimidating. Travelling to and fro NIMHANS and my guest house in IISc was the least challenging part of my tenure. As a 19 year old who had never treaded farther from home, I faced hurdles beyond what I fathomed. But like a phoenix I emerged as a different person, with more wisdom, clarity, knowledge and friends.
+  </p>
+
+  <p class="story-para">
+    As destiny would have it, I was called by the divine city of Kashi to continue my MSc in Applied Microbiology from <strong>Banaras Hindu University</strong>. A hostel as a home and dreams in my eyes, I partook the course in the spirit of science. And as I eventually left for Jawaharlal Nehru University to work on <em>computational drug discovery</em> as a part of my Masters Thesis, I carried with me bittersweet memories and lasting bonds. My dissertation was beyond my expertise in the wet lab because I hold faith in Dr. Kalam’s words - <em>“If you want to leave your footprints on the sands of time, do not drag your feet.”</em> Initially I struggled with my usual micropipettes and culture plates being swapped with computer keys and codes. But it gradually grew on me and I conquered the digital realm of biology in a tiny sense.
+  </p>
+
+  <p class="story-para">
+    As I await and venture in the next steps of my voyage I have come up with this webpage to project my learnings to a wider world. Maybe someday some 11 year old girl would believe she can do science because Saumya could!
+  </p>
+
+  <div class="story-sign">
+    With dreams in eyes and dares in heart,<br/>
+    <em>Microbially yours,</em><br/>
+    Saumya
+  </div>
+</div><!-- end about-narrative -->
+
+  </div><!-- end about-inner -->
+</section><!-- end about-story -->
+
+
+<!-- CV / PROFESSIONAL -->
+<section class="cv-section" id="cv">
+  <div class="cv-inner">
+    <div class="section-label">Professional</div>
+    <h2 class="section-title">Education, Skills &amp; Experience</h2>
+    <div class="cv-grid">
+      <div>
+        <div class="skill-group-title" style="margin-bottom:1.4rem">🎓 Academic &amp; Research Journey</div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-date">Jan – Apr 2025</div>
+            <div class="tl-role">Masters Dissertation Researcher</div>
+            <div class="tl-place">Jawaharlal Nehru University · Dr. Abhinav Grover</div>
+            <div class="tl-desc">In-Silico Discovery of Sterylglucosidase Inhibitors Targeting <em>Cryptococcus neoformans</em>. Molecular docking, MD simulations (GROMACS), binding energy analysis.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">Sept 2023 – May 2025</div>
+            <div class="tl-role">MSc Applied Microbiology</div>
+            <div class="tl-place">Banaras Hindu University · CGPA 9.11 / 10</div>
+            <div class="tl-desc">Microbial culturing, biochemical characterisation, and molecular biology workflows across medical, environmental, and industrial research contexts.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">July – Aug 2022</div>
+            <div class="tl-role">JNCASR Summer Research Fellow</div>
+            <div class="tl-place">NIMHANS, Bengaluru · Dr. Phalguni Anand Alladi</div>
+            <div class="tl-desc">Parkinson's disease pathology. Cryosectioning, histological staining, and advanced microscopy for CNS disease research.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">June 2022</div>
+            <div class="tl-role">Summer Research Intern</div>
+            <div class="tl-place">ACBR, University of Delhi · Prof. Daman Saluja</div>
+            <div class="tl-desc">Western blotting, SDS-PAGE, electrophoresis, mammalian cell culture in oncology and ageing research.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">Oct 2020 – May 2023</div>
+            <div class="tl-role">BSc Honours Microbiology</div>
+            <div class="tl-place">University of Delhi · CGPA 8.73 / 10</div>
+            <div class="tl-desc">Foundational bacteriology, cellular biology, and core laboratory techniques.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-date">Oct – Nov 2023</div>
+            <div class="tl-role">Content Curator</div>
+            <div class="tl-place">BioBuddy</div>
+            <div class="tl-desc">Science communication for social media — translating complex microbiology into accessible, engaging content.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group">
+          <div class="skill-group-title">🔬 Experimental Skills</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Microbial Culturing</span><span class="skill-tag">Aseptic Technique</span><span class="skill-tag">PCR</span><span class="skill-tag">SDS-PAGE</span><span class="skill-tag">DNA Isolation</span><span class="skill-tag">Electrophoresis</span><span class="skill-tag">Microscopy</span><span class="skill-tag">Cell Culture</span><span class="skill-tag">Staining</span><span class="skill-tag">Spectrophotometry</span><span class="skill-tag">Chromatography</span><span class="skill-tag">Western Blotting</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-title">💻 Computational Skills</div>
+          <div class="skill-tags">
+            <span class="skill-tag">GROMACS</span><span class="skill-tag">Discovery Studio</span><span class="skill-tag">UCSF Chimera</span><span class="skill-tag">BLAST</span><span class="skill-tag">PDB</span><span class="skill-tag">OriginPro</span><span class="skill-tag">Molecular Docking</span><span class="skill-tag">MD Simulations</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-title">✍️ Communication &amp; Tools</div>
+          <div class="skill-tags">
+            <span class="skill-tag">LaTeX</span><span class="skill-tag">BioRender</span><span class="skill-tag">Science Writing</span><span class="skill-tag">Social Media SciComm</span><span class="skill-tag">Microsoft Office</span>
+          </div>
+        </div>
+        <div class="awards">
+          <div class="skill-group-title">🏅 Awards &amp; Achievements</div>
+          <div class="award-list">
+            <div class="award-item"><div class="award-icon">🏆</div><div><div class="award-title">GATE — 90+ Percentile (2025–2028)</div><div class="award-sub">Biotechnology &amp; Life Sciences</div></div></div>
+            <div class="award-item"><div class="award-icon">📜</div><div><div class="award-title">UGC National Scholarship for Postgraduate Studies</div><div class="award-sub">2023 – 2025</div></div></div>
+            <div class="award-item"><div class="award-icon">⭐</div><div><div class="award-title">Academic Excellence Award</div><div class="award-sub">Highest CGPA, 1st Year BSc · University of Delhi, 2020–21</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- PROJECTS -->
+<section class="projects-section" id="projects">
+  <div class="section-label">Interactive Projects</div>
+  <h2 class="section-title">Science, made to explore.</h2>
+  <p style="color:var(--ink-soft);font-size:0.9rem;max-width:580px;">
+    Living notebooks that visualise something fascinating about the microbial world. Click a card to explore — or watch this space grow.
+  </p>
+  <div class="projects-grid">
+
+    <a class="project-card" href="projects/gut-feelings.html">
+      <span class="project-status status-wip">Completed</span>
+      <span class="project-icon">🫙</span>
+      <div class="project-tag">Fermentation · Gut Microbiome</div>
+      <div class="project-title">Gut Feelings: Fermented Foods & Your Microbiome</div>
+      <p class="project-desc">What actually happens inside your gut when you eat kimchi, dahi, or kombucha? An interactive explainer on fermentates, short-chain fatty acids, and the microbes that run your second brain.</p>
+    </a>
+
+    <a class="project-card" href="projects/microbiome-atlas.html">
+      <span class="project-status status-wip">In Progress</span>
+      <span class="project-icon">🧬</span>
+      <div class="project-tag">Metagenomics · Interactive</div>
+      <div class="project-title">Human Microbiome Atlas</div>
+      <p class="project-desc">Click any body site — gut, skin, oral cavity, vaginal tract — and explore dominant genera, diversity indices, and the science of why they live there.</p>
+    </a>
+
+    <a class="project-card coming-soon" href="#">
+      <span class="project-status status-soon">Coming Soon</span>
+      <span class="project-icon">🦠</span>
+      <div class="project-tag">AMR · Data Visualisation</div>
+      <div class="project-title">Antibiotic Resistance Tracker</div>
+      <p class="project-desc">A visual matrix of which pathogens resist which antibiotics, built from WHO/CDC surveillance data. Scroll, filter, and understand the AMR crisis.</p>
+    </a>
+
+    <a class="project-card coming-soon" href="#">
+      <span class="project-status status-soon">Coming Soon</span>
+      <span class="project-icon">⏱️</span>
+      <div class="project-tag">Epidemiology · History</div>
+      <div class="project-title">Outbreak Timeline</div>
+      <p class="project-desc">An interactive timeline of the world's defining outbreaks — cholera, plague, Spanish flu, COVID — with maps, pathogen profiles, and turning points.</p>
+    </a>
+
+    <a class="project-card coming-soon" href="#">
+      <span class="project-status status-soon">Coming Soon</span>
+      <span class="project-icon">🔬</span>
+      <div class="project-tag">Identification · Quiz</div>
+      <div class="project-title">Gram Stain Gallery &amp; Quiz</div>
+      <p class="project-desc">A gallery of gram stain images with a guessing-game overlay — identify morphology, arrangement, and Gram reaction from the slide alone.</p>
+    </a>
+
+    <a class="project-card coming-soon" href="#">
+      <span class="project-status status-soon">Coming Soon</span>
+      <span class="project-icon">🧫</span>
+      <div class="project-tag">Computational Biology · Dissertation</div>
+      <div class="project-title">Cryptococcus Drug Discovery</div>
+      <p class="project-desc">A visual explainer of my MSc dissertation — how molecular docking identified sterylglucosidase inhibitors against <em>C. neoformans</em>.</p>
+    </a>
+
+  </div>
+</section>
+
+
+<!-- ARTICLES -->
+<section class="articles-section" id="articles">
+  <div class="section-label">Articles</div>
+  <h2 class="section-title">Science I think about.</h2>
+  <p style="color:var(--ink-soft);font-size:0.9rem;max-width:580px;">
+    Long-form writing on topics that fascinate, frustrate, or surprise me — written for curious people, not just scientists.
+  </p>
+  <div class="articles-grid">
+
+    <a class="article-card coming-soon" href="#">
+      <div class="article-cat">Myth-Busting · Biology</div>
+      <div class="article-title">Are Biologists Bad at Math? Debunking a tired stereotype.</div>
+      <p class="article-blurb">From population dynamics to GROMACS simulations — the truth about quantitative thinking in life sciences, and why the stereotype hurts us.</p>
+      <span class="article-badge">Coming Soon</span>
+    </a>
+
+    <a class="article-card coming-soon" href="#">
+      <div class="article-cat">Gut Microbiome · Everyday Life</div>
+      <div class="article-title">Your Second Brain: How gut microbes might be steering your mood.</div>
+      <p class="article-blurb">The gut-brain axis is real, the science is young, and the hype is getting ahead of the evidence. Let's untangle what we actually know.</p>
+      <span class="article-badge">Coming Soon</span>
+    </a>
+
+    <a class="article-card coming-soon" href="#">
+      <div class="article-cat">Fermentation · Culture</div>
+      <div class="article-title">Every Culture Ferments: A microbial tour of the world's forgotten foods.</div>
+      <p class="article-blurb">From kanji in India to kvass in Russia — humans have been harnessing microbes for millennia without knowing it. A love letter to fermentation.</p>
+      <span class="article-badge">Coming Soon</span>
+    </a>
+
+  </div>
+</section>
+
+
+<!-- PAPER SUMMARIES -->
+<section class="papers-section" id="papers">
+  <div class="section-label">Reading Log</div>
+  <h2 class="section-title">Papers, in plain English.</h2>
+  <p style="color:var(--ink-soft);font-size:0.9rem;max-width:560px;margin-bottom:0.5rem;">
+    Research is only useful if it's understood. Here I summarise papers I've read —
+    the key finding, why it matters, and what I actually think.
+  </p>
+  <div class="papers-list">
+    <div class="paper-card">
+      <div class="paper-num">01</div>
+      <div>
+        <div class="paper-topic">Gut Microbiome · Diet</div>
+        <div class="paper-title">Add your first paper title here</div>
+        <p class="paper-summary">What was the key finding? What method was used? What do you think about the implications? Write it as if explaining to a smart friend who isn't a scientist.</p>
+      </div>
+      <div class="paper-arrow">→</div>
+    </div>
+    <div class="paper-card">
+      <div class="paper-num">02</div>
+      <div>
+        <div class="paper-topic">AMR · Clinical Microbiology</div>
+        <div class="paper-title">Second paper — coming soon</div>
+        <p class="paper-summary">This section is ready and waiting. Copy the block above each time you finish reading a new paper.</p>
+      </div>
+      <div class="paper-arrow">→</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-name">Saumya Samridhi</div>
+  <ul class="footer-links">
+    <li><a href="https://www.linkedin.com/in/saumya-samridhi" target="_blank">LinkedIn</a></li>
+    <li><a href="https://www.youtube.com/@hermicroworld" target="_blank">YouTube</a></li>
+    <li><a href="mailto:saumyavns2@gmail.com">Email</a></li>
+    <li><a href="#">CV</a></li>
+  </ul>
+  <div class="footer-copy">© 2025 · Built with curiosity &amp; a pipette</div>
+</footer>
+
+
+<!-- ═══════════════════════════════════════
+     INTERACTIVE PETRI DISH JAVASCRIPT
+═══════════════════════════════════════ -->
+<script>
+  // Colony data — name, fun fact, colour gradient, size range
+  const MICROBES = [
+    { name: "Staphylococcus aureus",   fact: "Golden colonies — aureus means gold in Latin. Loves your skin and nose.", colors: ["#fff4c2","#e8c46a"], sizeRange: [52,80] },
+    { name: "Escherichia coli",        fact: "Your gut's most famous tenant. Also makes insulin for diabetics.", colors: ["#d0f0e8","#5bbda0"], sizeRange: [30,55] },
+    { name: "Bacillus subtilis",       fact: "Can survive in space! Used as a probiotic and in agriculture.", colors: ["#ddf0ff","#88c4e8"], sizeRange: [35,60] },
+    { name: "Streptococcus pneumoniae",fact: "Causes pneumonia — but also helped prove DNA is the genetic material.", colors: ["#ffd8d8","#e89090"], sizeRange: [20,38] },
+    { name: "Pseudomonas aeruginosa",  fact: "Can glow blue-green! Notorious for antibiotic resistance in hospitals.", colors: ["#d8f8e8","#40b878"], sizeRange: [25,45] },
+    { name: "Lactobacillus acidophilus",fact: "Your yogurt's hero. Produces lactic acid that keeps bad bugs away.", colors: ["#ffeedd","#e8a870"], sizeRange: [14,26] },
+    { name: "Cryptococcus neoformans", fact: "Saumya's dissertation star — a fungus with a polysaccharide capsule.", colors: ["#f0d8ff","#b080d8"], sizeRange: [28,50] },
+    { name: "Micrococcus luteus",      fact: "Bright yellow colonies. Found in soil, water, and your skin.", colors: ["#fffacc","#f0d040"], sizeRange: [16,28] },
+    { name: "Serratia marcescens",     fact: "Produces a blood-red pigment — once mistaken for miraculous bleeding bread!", colors: ["#ffd0d8","#e06070"], sizeRange: [18,34] },
+    { name: "Streptomyces coelicolor", fact: "Smells like fresh earth — that petrichor scent is called geosmin, made by relatives of this bug.", colors: ["#d8e8ff","#7090c8"], sizeRange: [20,40] },
+  ];
+
+  const tooltip   = document.getElementById('colonyTooltip');
+  const tipName   = document.getElementById('tipName');
+  const tipFact   = document.getElementById('tipFact');
+  const container = document.getElementById('colonyContainer');
+  const petriWrap = document.getElementById('petriWrap');
+
+  function randomBetween(a, b) { return a + Math.random() * (b - a); }
+
+  // Check if new colony overlaps existing ones (simple distance check)
+  function overlaps(x, y, r, existing) {
+    for (const e of existing) {
+      const dx = x - e.x, dy = y - e.y;
+      if (Math.sqrt(dx*dx + dy*dy) < r + e.r + 6) return true;
+    }
+    return false;
+  }
+
+  // Is point inside the circle plate?
+  function inCircle(x, y, size) {
+    const cx = 50, cy = 50; // percent centre
+    const r  = 42;          // percent radius (slightly inside rim)
+    const px = x + size/2/3.6; // rough centre of colony
+    const py = y + size/2/3.6;
+    return Math.sqrt((px-cx)**2 + (py-cy)**2) < r - size/2/3.6;
+  }
+
+  function replate() {
+    container.innerHTML = '';
+    const count    = Math.floor(randomBetween(6, 11));
+    const placed   = [];
+    const shuffled = [...MICROBES].sort(() => Math.random() - 0.5);
+
+    for (let i = 0; i < count; i++) {
+      const m    = shuffled[i % shuffled.length];
+      const size = randomBetween(m.sizeRange[0], m.sizeRange[1]);
+      let x, y, tries = 0;
+
+      do {
+        x = randomBetween(8, 78);
+        y = randomBetween(8, 78);
+        tries++;
+      } while ((overlaps(x, y, size/2, placed) || !inCircle(x, y, size)) && tries < 60);
+
+      if (tries >= 60) continue;
+
+      placed.push({ x, y, r: size/2 });
+
+      const el = document.createElement('div');
+      el.className = 'colony';
+      el.style.cssText = `
+        width:${size}px; height:${size}px;
+        top:${y}%; left:${x}%;
+        background: radial-gradient(circle, ${m.colors[0]}, ${m.colors[1]});
+        animation: growColony ${0.6 + Math.random()*0.6}s ease forwards;
+        animation-delay: ${i * 0.12}s;
+      `;
+
+      // Tooltip events
+      el.addEventListener('mouseenter', (e) => {
+        tipName.textContent = m.name;
+        tipFact.textContent = m.fact;
+
+        // Position tooltip above colony
+        const elRect   = el.getBoundingClientRect();
+        const wrapRect = petriWrap.getBoundingClientRect();
+        const tipLeft  = (elRect.left - wrapRect.left) + elRect.width/2;
+        const tipTop   = (elRect.top  - wrapRect.top)  - 8;
+        tooltip.style.left      = tipLeft + 'px';
+        tooltip.style.top       = tipTop  + 'px';
+        tooltip.style.transform = 'translate(-50%, -100%)';
+        tooltip.classList.add('show');
+      });
+      el.addEventListener('mouseleave', () => {
+        tooltip.classList.remove('show');
+      });
+
+      container.appendChild(el);
+    }
+  }
+
+  // Initial plate on load
+  window.addEventListener('load', () => setTimeout(replate, 400));
+</script>
+
+</body>
+</html>
